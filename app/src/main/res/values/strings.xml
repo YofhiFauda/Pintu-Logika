@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Pintu Logika</string>
+
+    <!--  Onboarding  -->
+    <string name="get_s_started">Get\'s Started</string>
+
+    <!-- Role -->
+    <string name="selamat_datang_role">Selamat datang di\nAplikasi Pintu Logika</string>
+    <string name="desc_role">Buka Pintu Logika, Temukan Dunia Tanpa Batas. Menjadi jembatan bagi siapa pun, dari pemula hingga mahir, dengan memahami konsep logika dengan cara yang mudah dan menyenangkan.</string>
+    <string name="pengguna">Pengguna</string>
+    <string name="admin">Admin</string>
+
+
 </resources>

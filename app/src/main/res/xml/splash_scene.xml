@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <!-- 1 -->
+    <Transition
+        motion:constraintSetStart="@+id/splash1_start"
+        motion:constraintSetEnd="@+id/splash1_end"
+        motion:duration="700"
+        motion:motionInterpolator="spring(0.5, 0.4)"
+        motion:autoTransition="animateToEnd" />
+
+    <!-- 2 -->
+    <Transition
+        motion:constraintSetStart="@+id/splash1_end"
+        motion:constraintSetEnd="@+id/splash2_end"
+        motion:duration="700"
+        motion:motionInterpolator="spring(0.5, 0.4)"
+        motion:autoTransition="animateToEnd" />
+
+    <!-- 3 -->
+    <Transition
+        motion:constraintSetStart="@+id/splash2_end"
+        motion:constraintSetEnd="@+id/splash3_end"
+        motion:duration="700"
+        motion:motionInterpolator="spring(0.5, 0.4)"
+        motion:autoTransition="animateToEnd" />
+
+    <!-- 4 -->
+    <Transition
+        motion:constraintSetStart="@+id/splash3_end"
+        motion:constraintSetEnd="@+id/splash4_end"
+        motion:duration="700"
+        motion:motionInterpolator="spring(0.5, 0.4)"
+        motion:autoTransition="animateToEnd" />
+
+    <!-- 5 -->
+    <Transition
+        motion:constraintSetStart="@+id/splash4_end"
+        motion:constraintSetEnd="@+id/splash5_end"
+        motion:duration="500"
+        motion:motionInterpolator="easeInOut"
+        motion:autoTransition="animateToEnd" />
+
+    <!-- 6 -->
+    <Transition
+        motion:constraintSetStart="@+id/splash5_end"
+        motion:constraintSetEnd="@+id/splash6_end"
+        motion:duration="500"
+        motion:motionInterpolator="easeInOut"
+        motion:autoTransition="animateToEnd" />
+
+    <!-- 7 -->
+    <Transition
+        motion:constraintSetStart="@+id/splash6_end"
+        motion:constraintSetEnd="@+id/splash7_end"
+        motion:duration="700"
+        motion:motionInterpolator="easeInOut"
+        motion:autoTransition="animateToEnd" />
+
+
+    <!-- Start -->
+    <ConstraintSet android:id="@+id/splash1_start">
+        <Constraint
+            android:id="@+id/circle1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleX="1.0"
+            android:scaleY="1.0"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:translationY="0dp"/>
+    </ConstraintSet>
+
+    <!-- Mid 1 -->
+    <ConstraintSet android:id="@+id/splash1_end">
+        <Constraint
+            android:id="@+id/circle1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleX="1.1"
+            android:scaleY="1.1"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:translationY="-80dp"/>
+    </ConstraintSet>
+
+    <!-- Mid 2 -->
+    <ConstraintSet android:id="@+id/splash2_end">
+        <Constraint
+            android:id="@+id/circle1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleX="0.95"
+            android:scaleY="0.95"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:translationY="0dp"/>
+    </ConstraintSet>
+
+    <!-- Mid 3 -->
+    <ConstraintSet android:id="@+id/splash3_end">
+        <Constraint
+            android:id="@+id/circle1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleX="1.15"
+            android:scaleY="1.15"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:translationY="-120dp"/>
+    </ConstraintSet>
+
+    <!-- Kembali ke tengah -->
+    <ConstraintSet android:id="@+id/splash4_end">
+        <Constraint
+            android:id="@+id/circle1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleX="1.0"
+            android:scaleY="1.0"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:translationY="0dp"/>
+
+        <!-- circle2 dengan constraint LENGKAP di tengah -->
+        <Constraint
+            android:id="@+id/circle2"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:alpha="0"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:translationY="0dp"/>
+
+        <!-- circle3 dengan constraint LENGKAP di tengah -->
+        <Constraint
+            android:id="@+id/circle3"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:alpha="0"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:translationY="0dp"/>
+    </ConstraintSet>
+
+
+    <!-- Zoom IN -->
+    <ConstraintSet android:id="@+id/splash5_end">
+        <Constraint
+            android:id="@+id/circle1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleX="2.0"
+            android:scaleY="2.0"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:translationY="0dp"/>
+
+        <!-- Circle2 (black) muncul dan zoom in -->
+        <Constraint
+            android:id="@+id/circle2"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:alpha="1"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:translationY="0dp" />
+
+        <!-- Circle3 (orange light) muncul dan zoom in -->
+        <Constraint
+            android:id="@+id/circle3"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleX="1.8"
+            android:scaleY="1.8"
+            android:alpha="1"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:translationY="0dp" />
+    </ConstraintSet>
+
+    <!-- Zoom IN  Orange, Blacke Circle-->
+    <ConstraintSet android:id="@+id/splash6_end">
+        <Constraint
+            android:id="@+id/circle1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleX="2.2"
+            android:scaleY="2.2"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:translationY="0dp"/>
+
+        <!-- Circle2 (black) muncul dan zoom in -->
+        <Constraint
+            android:id="@+id/circle2"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleX="2.5"
+            android:scaleY="2.5"
+            android:alpha="1"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:translationY="0dp" />
+
+        <!-- Circle3 (orange light) muncul dan zoom in -->
+        <Constraint
+            android:id="@+id/circle3"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:alpha="0"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:translationY="0dp" />
+
+        <!-- Circle2 (black) muncul dan zoom in -->
+        <Constraint
+            android:id="@+id/logo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:alpha="0"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:translationY="0dp" />
+    </ConstraintSet>
+
+    <!-- Zoom IN  LOGO -->
+    <ConstraintSet android:id="@+id/splash7_end">
+        <Constraint
+            android:id="@+id/circle1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:alpha="0"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:translationY="0dp"/>
+
+        <!-- Circle2 (black) muncul dan zoom in -->
+        <Constraint
+            android:id="@+id/circle2"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:alpha="0"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:translationY="0dp" />
+
+        <!-- Circle2 (black) muncul dan zoom in -->
+        <Constraint
+            android:id="@+id/logo"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:scaleX="2.5"
+            android:scaleY="2.5"
+            android:alpha="1"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:translationY="0dp" />
+
+    </ConstraintSet>
+
+</MotionScene>

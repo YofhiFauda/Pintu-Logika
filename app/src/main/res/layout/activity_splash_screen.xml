@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/motionLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    motion:layoutDescription="@xml/splash_scene">
+
+    <View
+        android:id="@+id/circle1"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:alpha="1"
+        android:background="@drawable/bg_orange_circle_shape" />
+
+    <View
+        android:id="@+id/circle3"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:alpha="0"
+        android:background="@drawable/bg_orange_light_circle_shape" />
+
+    <View
+        android:id="@+id/circle2"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:alpha="0"
+        android:background="@drawable/bg_black_circle_shape" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="4dp"
+        android:alpha="0"
+        android:scaleType="centerInside"
+        android:src="@drawable/logo" />
+
+</androidx.constraintlayout.motion.widget.MotionLayout>
