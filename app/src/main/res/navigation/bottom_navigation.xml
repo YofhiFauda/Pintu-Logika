@@ -7,25 +7,25 @@
 
     <fragment
         android:id="@+id/materiFragment"
-        android:name="com.pika.features.ui.materi.MateriFragment"
+        android:name="com.pika.pintulogika.ui.features.materi.MateriFragment"
         android:label="fragment_materi"
         tools:layout="@layout/fragment_materi" />
 
     <fragment
         android:id="@+id/simulasiFragment"
-        android:name="com.pika.features.ui.simulasi.SimulasiFragment"
+        android:name="com.pika.pintulogika.ui.features.simulasi.SimulasiFragment"
         android:label="fragment_simulasi"
         tools:layout="@layout/fragment_simulasi" />
 
     <fragment
         android:id="@+id/kuisFragment"
-        android:name="com.pika.features.ui.kuis.KuisFragment"
+        android:name="com.pika.pintulogika.ui.features.kuis.KuisFragment"
         android:label="fragment_kuis"
         tools:layout="@layout/fragment_kuis" />
 
     <fragment
         android:id="@+id/tentangFragment"
-        android:name="com.pika.features.ui.tentang.TentangFragment"
+        android:name="com.pika.pintulogika.ui.features.tentang.TentangFragment"
         android:label="fragment_tentang"
         tools:layout="@layout/fragment_tentang" />
 
