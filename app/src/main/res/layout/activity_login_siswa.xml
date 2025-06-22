@@ -107,7 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:background="@drawable/button_3d"
+            android:background="@drawable/bg_button_3d_medium_with_orange_stroke"
             android:text="Simpan"
             android:fontFamily="@font/poppins_medium"
             android:textSize="24sp"

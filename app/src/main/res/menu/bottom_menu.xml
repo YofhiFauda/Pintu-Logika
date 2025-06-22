@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/item_materi"
+        android:icon="@drawable/ic_materi_active"
+        android:title="Materi"
+        android:enabled="true" />
+
+    <item
+        android:id="@+id/item_simulasi"
+        android:icon="@drawable/ic_simulasi_active"
+        android:title="Simulasi"
+        android:enabled="true" />
+
+    <item
+        android:id="@+id/item_kuis"
+        android:icon="@drawable/ic_kuis_active"
+        android:title="Kuis"
+        android:enabled="true" />
+
+    <item
+        android:id="@+id/item_tentang"
+        android:icon="@drawable/ic_tentang_active"
+        android:title="Tentang"
+        android:enabled="true" />
+
+
+</menu>
