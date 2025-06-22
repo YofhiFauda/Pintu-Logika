@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- File: drawable/button_3d_orange.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Drop Shadow Bottom -->
+    <item android:top="0dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="20dp" />
+            <solid android:color="@color/orange_medium" />
+        </shape>
+    </item>
+
+
+
+    <!-- Main Orange Background -->
+    <item android:top="0dp" android:bottom="7dp" android:left="0dp" android:right="7dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="16dp" />
+            <solid android:color="#FFB85E" />
+        </shape>
+    </item>
+</layer-list>

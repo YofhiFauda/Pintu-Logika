@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.auth.guru.LoginGuruActivity">
+
+    <ImageButton
+        android:id="@+id/btn_backLoginGuru"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="Login Admin"
+        android:minHeight="50dp"
+        android:minWidth="50dp"
+        android:maxHeight="60dp"
+        android:maxWidth="60dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="40dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_arrow_back_24"
+        android:background="@drawable/bg_button_3d_small"/>
+
+    <ImageView
+        android:id="@+id/img_loginAdmin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/login_admin"
+        app:layout_constraintBottom_toTopOf="@id/guidelineHorizontal"/>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal"
+        android:gravity="center"
+        android:text="Selamat Datang"
+        android:fontFamily="@font/poppins_bold"
+        android:textColor="@color/black"
+        android:textSize="28sp"/>
+
+    <TextView
+        android:id="@+id/tv_subtittle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        android:gravity="center"
+        android:text="Login menggunakan akun anda"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/black"
+        android:textSize="16sp"/>
+
+
+    <LinearLayout
+        android:id="@+id/layout_formLoginAdmin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_subtittle">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ed_emailLoginAdmin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:autofillHints="password"
+            android:fontFamily="@font/poppins_medium"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:textColorHint="@color/orange_reguler"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeColor="@color/text_input_stroke_color"
+            app:errorEnabled="true"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/orange_reguler">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_emailLoginAdmin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
+                android:layout_marginTop="10dp"
+                android:drawableStart="@drawable/ic_email_24"
+                android:drawablePadding="20dp"
+                android:drawableTint="@color/text_input_stroke_color"
+                android:fontFamily="@font/poppins_medium"
+                android:minHeight="60dp"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"
+                android:textColor="@color/orange_medium"
+                android:textSize="16sp"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeColor="@color/text_input_stroke_color" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ed_passwordAdmin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:autofillHints="password"
+            android:fontFamily="@font/poppins_medium"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:textColorHint="@color/orange_reguler"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeColor="@color/text_input_stroke_color"
+            app:errorEnabled="true"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
+            app:hintTextColor="@color/orange_reguler">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_passwordAdmin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
+                android:layout_marginTop="10dp"
+                android:drawableStart="@drawable/ic_lock_24"
+                android:drawablePadding="20dp"
+                android:drawableTint="@color/text_input_stroke_color"
+                android:fontFamily="@font/poppins_medium"
+                android:minHeight="60dp"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"
+                android:textColor="@color/orange_medium"
+                android:textSize="16sp"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeColor="@color/text_input_stroke_color" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_masukLoginAdmin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_3d"
+        android:text="Masuk"
+        android:fontFamily="@font/poppins_medium"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:paddingVertical="10dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_gravity="center"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_formLoginAdmin"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.43"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineVertical"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

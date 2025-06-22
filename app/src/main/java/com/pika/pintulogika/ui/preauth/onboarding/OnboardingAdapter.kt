@@ -1,4 +1,4 @@
-package com.pika.pintulogika.ui.onboarding
+package com.pika.pintulogika.ui.preauth.onboarding
 
 import android.view.LayoutInflater
 import android.view.View

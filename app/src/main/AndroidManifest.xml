@@ -13,13 +13,16 @@
         android:theme="@style/Theme.PintuLogika"
         tools:targetApi="31">
         <activity
+            android:name=".ui.auth.siswa.LoginSiswaActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.role.RoleActivity"
+            android:name=".ui.preauth.role.RoleActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.onboarding.OnboardingActivity"
+            android:name=".ui.preauth.onboarding.OnboardingActivity"
             android:exported="false" />
         <activity
             android:name=".ui.splashscreen.SplashScreenActivity"

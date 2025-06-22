@@ -1,4 +1,4 @@
-package com.pika.pintulogika.ui.onboarding
+package com.pika.pintulogika.ui.preauth.onboarding
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,7 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.pika.pintulogika.R
 import com.pika.pintulogika.data.SessionManager
 import com.pika.pintulogika.databinding.ActivityOnboardingBinding
-import com.pika.pintulogika.ui.role.RoleActivity
+import com.pika.pintulogika.ui.preauth.role.RoleActivity
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
 class OnboardingActivity : AppCompatActivity() {

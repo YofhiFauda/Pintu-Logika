@@ -8,10 +8,10 @@ import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.pika.pintulogika.ui.onboarding.OnboardingActivity
+import com.pika.pintulogika.ui.preauth.onboarding.OnboardingActivity
 import com.pika.pintulogika.R
 import com.pika.pintulogika.data.SessionManager
-import com.pika.pintulogika.ui.role.RoleActivity
+import com.pika.pintulogika.ui.preauth.role.RoleActivity
 
 class SplashScreenActivity : AppCompatActivity() {
 

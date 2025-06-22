@@ -1,0 +1,121 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent">
+
+    <!-- Background Content -->
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/halaman_materi"
+        android:scaleType="centerCrop" />
+
+    <!-- Overlay blur semi-transparent -->
+    <View
+        android:id="@+id/blurOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#CE000000" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="20dp"
+        android:layout_gravity="end"
+        android:elevation="8dp">
+
+        <ImageButton
+            android:id="@+id/btn_exit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:contentDescription="Close"
+            android:minHeight="60dp"
+            android:minWidth="60dp"
+            android:src="@drawable/ic_close_24"/>
+
+    </LinearLayout>
+
+    <!-- Input Card -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:elevation="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Nama"
+            android:textColor="@android:color/white"
+            android:textSize="28sp" />
+
+        <EditText
+            android:id="@+id/etNama"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="60dp"
+            android:background="@drawable/bg_input_card"
+            android:padding="10dp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:inputType="text"
+            android:hint="Masukan Nama"
+            android:textColor="@android:color/white"
+            android:fontFamily="@font/poppins_bold"
+            android:textSize="26sp"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="Kelas"
+            android:textSize="28sp"
+            android:textColor="@android:color/white"
+            android:fontFamily="@font/poppins_bold"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <EditText
+            android:id="@+id/etKelas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:minHeight="60dp"
+            android:hint="Masukan Kelas"
+            android:background="@drawable/bg_input_card"
+            android:padding="10dp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:fontFamily="@font/poppins_bold"
+            android:textSize="26sp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSimpan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/button_3d"
+            android:text="Simpan"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="24sp"
+            android:minHeight="60dp"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="25dp"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"/>
+    </LinearLayout>
+
+</FrameLayout>
