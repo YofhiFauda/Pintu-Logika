@@ -1,5 +1,6 @@
 package com.pika.pintulogika.ui.preauth.onboarding
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,12 +9,17 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.pika.pintulogika.R
-import com.pika.pintulogika.data.SessionManager
+import com.pika.pintulogika.data.session.SessionManager
 import com.pika.pintulogika.databinding.ActivityOnboardingBinding
 import com.pika.pintulogika.ui.preauth.role.RoleActivity
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+import androidx.lifecycle.lifecycleScope
+import com.pika.pintulogika.ViewModelFactory
+import com.pika.pintulogika.utils.userDataStore
+import kotlinx.coroutines.launch
 
 class OnboardingActivity : AppCompatActivity() {
 
@@ -24,6 +30,7 @@ class OnboardingActivity : AppCompatActivity() {
     private lateinit var btnGetStarted: Button
     private lateinit var dotsIndicator: WormDotsIndicator
     private lateinit var btnSkip: TextView
+    private lateinit var viewModel: OnboardingViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,15 +49,34 @@ class OnboardingActivity : AppCompatActivity() {
         btnGetStarted = binding.btnGetStarted
         btnSkip = findViewById(R.id.tv_skipOnboarding)
 
-        adapter = OnboardingAdapter(onboardingItems) {
-            val prefManager = SessionManager(this)
-            prefManager.setFirstTimeLaunch(false)
-            Log.d("PREF", "First time? ${prefManager.isFirstTimeLaunch()}")
+        // ✅ Inisialisasi SessionManager dan ViewModel
+        val sessionManager = SessionManager(applicationContext)
+        val repository = OnboardingRepository(sessionManager)
+        val factory = ViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, factory)[OnboardingViewModel::class.java]
 
+        lifecycleScope.launch {
+            viewModel.isFirstTimeLaunch.collect { isFirst ->
+                if (!isFirst) {
+                    startActivity(Intent(this@OnboardingActivity, RoleActivity::class.java))
+                    finish()
+                }
+            }
+        }
+
+        adapter = OnboardingAdapter(onboardingItems) {
             // Callback ketika tombol "Lewati" ditekan
+            viewModel.completeOnboarding()
             startActivity(Intent(this, RoleActivity::class.java))
             finish()
         }
+
+        btnGetStarted.setOnClickListener {
+            viewModel.completeOnboarding()
+            startActivity(Intent(this, RoleActivity::class.java))
+            finish()
+        }
+
 
         viewPager.adapter = adapter
         dotsIndicator.attachTo(viewPager)
@@ -72,19 +98,8 @@ class OnboardingActivity : AppCompatActivity() {
         })
 
         btnNext.setOnClickListener {
-
             viewPager.currentItem = viewPager.currentItem + 1
         }
-        btnGetStarted.setOnClickListener {
-            val prefManager = SessionManager(this)
-            prefManager.setFirstTimeLaunch(false)
-            Log.d("PREF", "First time? ${prefManager.isFirstTimeLaunch()}")
-
-
-            startActivity(Intent(this, RoleActivity::class.java))
-            finish()
-        }
-
     }
 }
 

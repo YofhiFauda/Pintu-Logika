@@ -1,5 +1,7 @@
-package com.pika.pintulogika.ui.splashScreen
+package com.pika.pintulogika.ui.preauth.splashscreen
 
+
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -10,9 +12,13 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.pika.pintulogika.ui.preauth.onboarding.OnboardingActivity
 import com.pika.pintulogika.R
-import com.pika.pintulogika.data.SessionManager
+import com.pika.pintulogika.data.session.SessionManager
 import com.pika.pintulogika.ui.preauth.role.RoleActivity
+import androidx.lifecycle.lifecycleScope
+import com.pika.pintulogika.MainActivity
+import kotlinx.coroutines.launch
 
+@SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,13 +66,29 @@ class SplashScreenActivity : AppCompatActivity() {
 
     private fun navigateToMain() {
         val sessionManager = SessionManager(this)
-        if (sessionManager.isFirstTimeLaunch()) {
-            startActivity(Intent(this, OnboardingActivity::class.java))
-        } else {
-            startActivity(Intent(this, RoleActivity::class.java))
-        }
-        finish()
-    }
 
+        lifecycleScope.launch {lifecycleScope.launch {
+            sessionManager.sessionState.collect { session ->
+
+                val nextIntent = when {
+                    session.isFirstTimeLaunch -> Intent(
+                        this@SplashScreenActivity,
+                        OnboardingActivity::class.java
+                    )
+
+                    session.isLoggedIn -> Intent(
+                        this@SplashScreenActivity,
+                        MainActivity::class.java
+                    )
+
+                    else -> Intent(this@SplashScreenActivity, RoleActivity::class.java)
+                }
+
+                startActivity(nextIntent)
+                finish()
+            }
+        }
+        }
+    }
 }
 

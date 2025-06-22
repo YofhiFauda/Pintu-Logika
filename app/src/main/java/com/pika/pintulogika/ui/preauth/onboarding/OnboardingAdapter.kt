@@ -7,35 +7,32 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.pika.pintulogika.R
+import com.pika.pintulogika.databinding.ItemOnboardingBinding
 
 class OnboardingAdapter(
     private val items: List<OnboardingItem>,
-    private val onSkipClick: () -> Unit // ← Tambahkan callback
+    private val onSkipClicked: () -> Unit
 ) : RecyclerView.Adapter<OnboardingAdapter.OnboardingViewHolder>() {
 
-    inner class OnboardingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val img = itemView.findViewById<ImageView>(R.id.imageViewOnboarding)
-        private val skip = itemView.findViewById<TextView>(R.id.tv_skipOnboarding)
-        private val title = itemView.findViewById<TextView>(R.id.tv_titleOnboarding)
-        private val desc = itemView.findViewById<TextView>(R.id.tv_subtitleOnboarding)
+    inner class OnboardingViewHolder(private val binding: ItemOnboardingBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: OnboardingItem) {
-            img.setImageResource(item.imageResId)
-            skip.text = item.skip
-            title.text = item.title
-            desc.text = item.description
+            binding.tvTitleOnboarding.text = item.title
+            binding.tvSubtitleOnboarding.text = item.description
+            binding.imageViewOnboarding.setImageResource(item.imageResId)
 
-            // Tangani klik skip
-            skip.setOnClickListener {
-                onSkipClick() // ← Kirim callback ke Activity
+            // Tombol "Lewati"
+            binding.tvSkipOnboarding.setOnClickListener {
+                onSkipClicked()
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OnboardingViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_onboarding, parent, false)
-        return OnboardingViewHolder(view)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ItemOnboardingBinding.inflate(inflater, parent, false)
+        return OnboardingViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: OnboardingViewHolder, position: Int) {
