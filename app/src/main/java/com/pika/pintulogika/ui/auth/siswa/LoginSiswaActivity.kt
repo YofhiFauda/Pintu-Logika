@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.pika.pintulogika.MainActivity
 import com.pika.pintulogika.ui.preauth.role.RoleActivity
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.first
 
 
 class LoginSiswaActivity : AppCompatActivity() {
@@ -23,16 +24,25 @@ class LoginSiswaActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginSiswaBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         firebaseAuth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
         sessionManager = SessionManager(applicationContext)
 
-
-        setupLogin()
-        setupExit()
+        // Cek apakah siswa sudah login
+        lifecycleScope.launch {
+            val session = sessionManager.sessionState.first()
+            if (session.isLoggedIn && session.role == "siswa") {
+                // Sudah login → langsung ke dashboard
+                redirectDashboard()
+            } else {
+                // Belum login → tampilkan form login
+                binding = ActivityLoginSiswaBinding.inflate(layoutInflater)
+                setContentView(binding.root)
+                setupLogin()
+                setupExit()
+            }
+        }
     }
 
     private fun setupLogin() = with(binding) {
@@ -44,34 +54,55 @@ class LoginSiswaActivity : AppCompatActivity() {
                 nama.isEmpty()  -> etNama.error  = "Nama tidak boleh kosong"
                 kelas.isEmpty() -> etKelas.error = "Kelas tidak boleh kosong"
                 else -> {
-                    val userId  = "${nama}_${kelas}"
-                    val userMap = hashMapOf(
-                        "nama"  to nama,
-                        "kelas" to kelas,
-                        "role"  to "siswa"
-                    )
+                    // Login anonymous Firebase dulu
+                    firebaseAuth.signInAnonymously()
+                        .addOnSuccessListener { authResult ->
+                            val uid = authResult.user?.uid ?: return@addOnSuccessListener
 
-                    firestore.collection("users")
-                        .document("kelas:$kelas")
-                        .collection(nama)
-                        .document(userId)
-                        .set(userMap)
-                        .addOnSuccessListener {
-                            lifecycleScope.launch {
-                                sessionManager.saveSiswaSession(nama, kelas, userId)
-                                Toast.makeText(this@LoginSiswaActivity,
-                                    "Data tersimpan & login berhasil", Toast.LENGTH_SHORT).show()
-                                redirectDashboard()
-                            }
+                            val userId = "${nama}_${kelas}"
+                            val userMap = hashMapOf(
+                                "nama" to nama,
+                                "kelas" to kelas,
+                                "role" to "siswa",
+                                "uid" to uid
+                            )
+
+                            firestore.collection("users")
+                                .document("kelas:$kelas")
+                                .collection(nama)
+                                .document(userId)
+                                .set(userMap)
+                                .addOnSuccessListener {
+                                    lifecycleScope.launch {
+                                        sessionManager.saveSiswaSession(nama, kelas, userId)
+                                        Toast.makeText(
+                                            this@LoginSiswaActivity,
+                                            "Login berhasil sebagai anonymous",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        redirectDashboard()
+                                    }
+                                }
+                                .addOnFailureListener {
+                                    Toast.makeText(
+                                        this@LoginSiswaActivity,
+                                        "Gagal menyimpan data: ${it.message}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                         }
                         .addOnFailureListener {
-                            Toast.makeText(this@LoginSiswaActivity,
-                                "Gagal menyimpan data: ${it.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@LoginSiswaActivity,
+                                "Gagal login anonymous: ${it.message}",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                 }
             }
         }
     }
+
 
 
     private fun redirectDashboard() {

@@ -19,7 +19,7 @@
         android:background="@drawable/bg_orange_circle_shape"/>
 
     <!--  Start of Title  -->
-    <ImageView
+    <ImageButton
         android:id="@+id/btn_keluar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,7 +28,24 @@
         android:minWidth="25dp"
         android:layout_marginTop="18dp"
         android:background="@android:color/transparent"
+        android:visibility="invisible"
         android:src="@drawable/ic_exit"
+        app:layout_constraintBottom_toTopOf="@+id/tv_titleOnboarding"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--  Start of Title  -->
+    <ImageButton
+        android:id="@+id/btn_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:minHeight="25dp"
+        android:minWidth="25dp"
+        android:visibility="invisible"
+        android:layout_marginTop="18dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_more_24"
         app:layout_constraintBottom_toTopOf="@+id/tv_titleOnboarding"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

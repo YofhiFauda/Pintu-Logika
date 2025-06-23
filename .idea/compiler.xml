@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="Pintu_Logika.features.kelola_kuis_materi" target="21" />
+      <module name="Pintu_Logika.features.kelola_materi" target="21" />
+      <module name="Pintu_Logika.kelola_materi" target="21" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

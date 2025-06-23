@@ -1,60 +1,122 @@
 package com.pika.pintulogika.ui.features.materi
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
+import android.widget.Toast
 import com.pika.pintulogika.R
+import com.pika.pintulogika.databinding.FragmentMateriBinding
+import kotlinx.coroutines.launch
+import androidx.lifecycle.lifecycleScope
+import com.pika.pintulogika.data.session.SessionManager
+import com.pika.pintulogika.ui.features.kuis.KuisFragment
+import com.pika.pintulogika.ui.preauth.role.RoleActivity
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [MateriFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MateriFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentMateriBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_materi, container, false)
+        _binding = FragmentMateriBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MateriFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MateriFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        sessionManager = SessionManager(requireContext())
+
+        setupToolButton()
+    }
+
+    private fun setupToolButton() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            sessionManager.sessionState.collect { session ->
+                when (session.role) {
+                    "siswa" -> {
+                        binding.btnKeluar.visibility = View.VISIBLE
+                        binding.btnMore.visibility = View.GONE
+
+                        buttonKeluarOnClick()
+                    }
+                    "guru" -> {
+                        binding.btnKeluar.visibility = View.GONE
+                        binding.btnMore.visibility = View.VISIBLE
+
+                        buttonMoreOnClick()
+                    }
+                    else -> {
+                        binding.btnKeluar.visibility = View.GONE
+                        binding.btnMore.visibility = View.GONE
+                    }
                 }
             }
+        }
     }
+
+    private fun buttonKeluarOnClick(){
+        binding.btnKeluar.setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                sessionManager.clearSession()
+                //FirebaseAuth.getInstance().signOut()
+                val intent = Intent(requireContext(), RoleActivity::class.java)
+                startActivity(intent)
+                requireActivity().finish()
+            }
+        }
+    }
+
+    private fun buttonMoreOnClick(){
+        binding.btnMore.setOnClickListener {
+            val popup = PopupMenu(requireContext(), it)
+            popup.menuInflater.inflate(R.menu.more_menu, popup.menu)
+
+            popup.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.menu_kelolaMateri -> {
+                        Toast.makeText(requireContext(), "Menu Kelola Materi Berhasl", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    R.id.menu_kuisMateri -> {
+                        Toast.makeText(requireContext(), "Menu Kelola Kuis Materi Berhasil", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    R.id.menu_tampilanMateri -> {
+                        Toast.makeText(requireContext(), "Menu Tampilkan Materi Berhasil", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    R.id.menu_keluar -> {
+                        viewLifecycleOwner.lifecycleScope.launch {
+                            sessionManager.logout()
+                            //FirebaseAuth.getInstance().signOut()
+                            val intent = Intent(requireContext(), RoleActivity::class.java)
+                            startActivity(intent)
+                            requireActivity().finish()
+                        }
+                        true
+                    }
+                    else -> false
+                }
+            }
+
+            popup.show()
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 }

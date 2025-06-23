@@ -11,6 +11,7 @@ import com.pika.pintulogika.data.session.SessionManager
 import com.pika.pintulogika.ui.preauth.role.RoleActivity
 import androidx.lifecycle.lifecycleScope
 import com.pika.pintulogika.MainActivity
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -23,17 +24,25 @@ class LoginGuruActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginGuruBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
 
         firebaseAuth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
-        sessionManager = SessionManager(this)
+        sessionManager = SessionManager(applicationContext)
 
-
-        setupAction()
-        setupLogin()
+        // Cek apakah siswa sudah login
+        lifecycleScope.launch {
+            val session = sessionManager.sessionState.first()
+            if (session.isLoggedIn && session.role == "guru") {
+                // Sudah login → langsung ke dashboard
+                startMainActivity()
+            } else {
+                // Belum login → tampilkan form login
+                binding = ActivityLoginGuruBinding.inflate(layoutInflater)
+                setContentView(binding.root)
+                setupLogin()
+                setupAction()
+            }
+        }
     }
 
     private fun setupLogin() = with(binding) {

@@ -8,4 +8,5 @@ data class SessionState(
     val email: String? = null,
     val nama: String? = null,
     val kelas: String? = null,
+    val uid: String? = null,
 )

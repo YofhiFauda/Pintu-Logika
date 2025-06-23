@@ -25,6 +25,7 @@ class SessionManager(private val context: Context) {
         val EMAIL         = stringPreferencesKey("email")
         val NAMA          = stringPreferencesKey("nama")
         val KELAS         = stringPreferencesKey("kelas")
+        val FIREBASE_UID           = stringPreferencesKey("firebase_uid")
     }
 
     // 🟢 ===== WRITE SESSION =====
@@ -48,7 +49,7 @@ class SessionManager(private val context: Context) {
     }
 
     /** Simpan data login SISWA */
-    suspend fun saveSiswaSession(nama: String, kelas: String, userId: String) =
+    suspend fun saveSiswaSession(nama: String, kelas: String, userId: String, uid: String? = null) =
         withContext(Dispatchers.IO) {
             context.userDataStore.edit {
                 it[IS_LOGGED_IN] = true
@@ -56,10 +57,27 @@ class SessionManager(private val context: Context) {
                 it[USER_ID] = userId
                 it[NAMA] = nama
                 it[KELAS] = kelas
+                uid?.let { uidValue -> it[FIREBASE_UID] = uidValue }
+
                 // Email tak perlu
                 it.remove(EMAIL)
             }
         }
+
+    //Clear Session saat button Keluar di tekan jadi tidak menghapus secara total
+    suspend fun clearSession() = withContext(Dispatchers.IO) {
+        context.userDataStore.edit {
+            it[IS_LOGGED_IN] = false
+            it[USER_ROLE] = ""
+            it[USER_ID] = ""
+            it[NAMA] = ""
+            it[KELAS] = ""
+            it[EMAIL] = ""
+            it[FIREBASE_UID] = ""
+            it[IS_FIRST_TIME_LAUNCH] = false  // opsional, tergantung kebutuhan onboarding
+        }
+    }
+
 
     /** Logout */
     suspend fun logout() = withContext(Dispatchers.IO) {
@@ -84,6 +102,7 @@ class SessionManager(private val context: Context) {
                 email             = prefs[EMAIL],
                 nama              = prefs[NAMA],
                 kelas             = prefs[KELAS]
+
             )
         }.distinctUntilChanged()
 }
