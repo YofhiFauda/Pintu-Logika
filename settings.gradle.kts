@@ -21,3 +21,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "Pintu Logika"
 include(":app")
+include(":features:kelola_materi")
+include(":features:kelola_kuis_materi")
+include(":features:tampilkan_materi")
+include(":core:core_ui")
+include(":features:halaman_materi")

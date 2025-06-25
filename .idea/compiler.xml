@@ -2,9 +2,9 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
-      <module name="Pintu_Logika.features.kelola_kuis_materi" target="21" />
-      <module name="Pintu_Logika.features.kelola_materi" target="21" />
+      <module name="Pintu_Logika.core_ui" target="21" />
       <module name="Pintu_Logika.kelola_materi" target="21" />
+      <module name="Pintu_Logika.ui" target="21" />
     </bytecodeTargetLevel>
   </component>
 </project>

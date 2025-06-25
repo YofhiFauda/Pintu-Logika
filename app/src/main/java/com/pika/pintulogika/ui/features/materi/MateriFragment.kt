@@ -12,8 +12,8 @@ import com.pika.pintulogika.R
 import com.pika.pintulogika.databinding.FragmentMateriBinding
 import kotlinx.coroutines.launch
 import androidx.lifecycle.lifecycleScope
+import com.pika.kelola_materi.KelolaMateriActivity
 import com.pika.pintulogika.data.session.SessionManager
-import com.pika.pintulogika.ui.features.kuis.KuisFragment
 import com.pika.pintulogika.ui.preauth.role.RoleActivity
 
 
@@ -85,7 +85,9 @@ class MateriFragment : Fragment() {
             popup.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.menu_kelolaMateri -> {
-                        Toast.makeText(requireContext(), "Menu Kelola Materi Berhasl", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(requireContext(), KelolaMateriActivity::class.java)
+                        startActivity(intent)
+
                         true
                     }
                     R.id.menu_kuisMateri -> {
