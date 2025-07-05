@@ -1,4 +1,5 @@
 package com.pika.halaman_materi.utils
 
-class OnProgressUpdateListener {
+interface OnProgressUpdateListener {
+    fun onProgressUpdate(total: Int, completed: Int)
 }

@@ -12,6 +12,7 @@ import com.pika.pintulogika.R
 import com.pika.pintulogika.databinding.FragmentMateriBinding
 import kotlinx.coroutines.launch
 import androidx.lifecycle.lifecycleScope
+import com.pika.halaman_materi.ui.MateriPembelajaranActivity
 import com.pika.kelola_materi.KelolaMateriActivity
 import com.pika.pintulogika.data.session.SessionManager
 import com.pika.pintulogika.ui.preauth.role.RoleActivity
@@ -38,7 +39,25 @@ class MateriFragment : Fragment() {
         sessionManager = SessionManager(requireContext())
 
         setupToolButton()
+        setupMateriGerbangLogika()
     }
+
+    private fun setupMateriGerbangLogika() {
+        binding.cardMateriGerbangLogika.setOnClickListener {
+            val intent = Intent(requireContext(), MateriPembelajaranActivity::class.java)
+            intent.putExtra("materi_id", "gerbang_logika")
+            intent.putExtra("modul_id", "pendahuluan") // modul default, bisa diubah nanti
+            startActivity(intent)
+        }
+
+        binding.cardMateriAljabarBoolean.setOnClickListener {
+            val intent = Intent(requireContext(), MateriPembelajaranActivity::class.java)
+            intent.putExtra("materi_id", "aljabar_boolean")
+            intent.putExtra("modul_id", "pendahuluan") // modul default, bisa juga "pengenalan"
+            startActivity(intent)
+        }
+    }
+
 
     private fun setupToolButton() {
         viewLifecycleOwner.lifecycleScope.launch {

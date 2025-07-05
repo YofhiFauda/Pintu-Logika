@@ -1,9 +1,16 @@
-package com.pika.halaman_materi.data
+package com.pika.halaman_materi.data.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class SubModul(
-    val nama: String,
-    val isSelesai: Boolean
-)
+    val nama: String = "",
+    val judul: String = "",
+    val konten: String = "",
+    val tanggalUpload: String = "",
+    val isSelesai: Boolean = false
+) : Parcelable
 
 data class Modul(
     val nama: String,
@@ -11,3 +18,4 @@ data class Modul(
     val subModul: List<SubModul>,
     var isExpanded: Boolean = false // default collapsed
 )
+

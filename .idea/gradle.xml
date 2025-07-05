@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/core/core_ui" />
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/features/halaman_materi" />
+            <option value="$PROJECT_DIR$/features/halaman_simulasi" />
             <option value="$PROJECT_DIR$/features/kelola_kuis_materi" />
             <option value="$PROJECT_DIR$/features/kelola_materi" />
             <option value="$PROJECT_DIR$/features/tampilkan_materi" />

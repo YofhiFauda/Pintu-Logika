@@ -43,6 +43,9 @@ android {
 dependencies {
     implementation(project(":core:core_ui"))
     implementation(project(":features:kelola_materi"))
+    implementation(project(":features:kelola_kuis_materi"))
+    implementation(project(":features:tampilkan_materi"))
+    implementation(project(":features:halaman_materi"))
 
 
     implementation(libs.androidx.core.ktx)
@@ -57,6 +60,7 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.kotlinx.coroutines)
