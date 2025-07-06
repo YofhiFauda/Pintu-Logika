@@ -8,4 +8,14 @@
     <color name="green">#47BE83</color>
     <color name="gray">#808080</color>>
 
+    <color name="orange_100">#FFDEB5</color>
+    <color name="orange_500">#FF950E</color>
+
+    <color name="red_500">#FF6D6D</color>
+    <color name="green_500">#429069</color>
+    <color name="gray_500">#C3C3C3</color>
+    <color name="yellow_200">#FFF59D</color> <!-- atau warna highlight lain -->
+
+
+
 </resources>

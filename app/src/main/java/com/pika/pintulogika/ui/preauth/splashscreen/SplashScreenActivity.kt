@@ -12,7 +12,7 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.pika.pintulogika.ui.preauth.onboarding.OnboardingActivity
 import com.pika.pintulogika.R
-import com.pika.pintulogika.data.session.SessionManager
+import com.digitallogic.core_data.session.SessionManager
 import com.pika.pintulogika.ui.preauth.role.RoleActivity
 import androidx.lifecycle.lifecycleScope
 import com.pika.pintulogika.MainActivity

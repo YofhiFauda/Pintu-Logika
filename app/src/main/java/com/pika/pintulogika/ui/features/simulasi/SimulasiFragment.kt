@@ -1,60 +1,88 @@
 package com.pika.pintulogika.ui.features.simulasi
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.pika.pintulogika.R
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.GridLayoutManager
+import com.digitallogic.core_data.model.LogicSimulasi
+import com.digitallogic.halaman_simulasi.adapter.LogicSimulasiAdapter
+import com.digitallogic.halaman_simulasi.ui.SimulasiDetailActivity
+import com.pika.pintulogika.databinding.FragmentSimulasiBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SimulasiFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SimulasiFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentSimulasiBinding? = null
+    private val binding get() = _binding!!
+
+    val logicList = listOf(
+        LogicSimulasi("LOGIKA AND", "Simulasi gerbang logika AND", com.pika.core_ui.R.drawable.ic_gate_and),
+        LogicSimulasi("LOGIKA OR", "Simulasi gerbang logika OR", com.pika.core_ui.R.drawable.ic_gate_or),
+        LogicSimulasi("LOGIKA NOT", "Simulasi gerbang logika NOT", com.pika.core_ui.R.drawable.ic_gate_not),
+        LogicSimulasi("LOGIKA NAND", "Simulasi gerbang logika NAND", com.pika.core_ui.R.drawable.ic_gate_nand),
+        LogicSimulasi("LOGIKA NOR", "Simulasi gerbang logika NOR", com.pika.core_ui.R.drawable.ic_gate_nor),
+        LogicSimulasi("LOGIKA XOR", "Simulasi gerbang logika XOR", com.pika.core_ui.R.drawable.ic_gate_xor),
+        LogicSimulasi("LOGIKA XNOR", "Simulasi gerbang logika XNOR", com.pika.core_ui.R.drawable.ic_gate_xnor),
+
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_simulasi, container, false)
+        _binding = FragmentSimulasiBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SimulasiFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SimulasiFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupRecyclerView()
+        setupWindowInsets()
+
+    }
+
+    private fun setupRecyclerView() {
+        val adapter = LogicSimulasiAdapter(logicList) { selectedItem ->
+            val intent = Intent(requireContext(), SimulasiDetailActivity::class.java)
+            intent.putExtra("GATE_TYPE", selectedItem.title)
+            startActivity(intent)
+        }
+
+        binding.rvLogicSimulasi.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.rvLogicSimulasi.adapter = adapter
+    }
+
+    private fun setupWindowInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            // Set padding untuk container utama
+            view.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                0 // Tidak set bottom padding di sini
+            )
+
+
+            // Set padding untuk RecyclerView
+            binding.rvLogicSimulasi.setPadding(
+                16, // left
+                16, // top
+                16, // right
+                systemBars.bottom + 16 // bottom (untuk BottomNavigation)
+            )
+            insets
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

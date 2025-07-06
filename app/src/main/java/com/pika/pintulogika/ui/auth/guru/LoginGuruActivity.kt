@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.pika.pintulogika.databinding.ActivityLoginGuruBinding
-import com.pika.pintulogika.data.session.SessionManager
+import com.digitallogic.core_data.session.SessionManager
 import com.pika.pintulogika.ui.preauth.role.RoleActivity
 import androidx.lifecycle.lifecycleScope
 import com.pika.pintulogika.MainActivity

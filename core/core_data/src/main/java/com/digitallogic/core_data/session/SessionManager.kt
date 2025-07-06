@@ -1,18 +1,20 @@
-package com.pika.pintulogika.data.session
+package com.digitallogic.core_data.session
 
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.pika.pintulogika.data.model.SessionState
+import com.digitallogic.core_data.model.SessionState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import com.pika.pintulogika.utils.userDataStore
 
+import kotlin.text.get
+
+val Context.userDataStore by preferencesDataStore(name = "user_session")
 
 class SessionManager(private val context: Context) {
 

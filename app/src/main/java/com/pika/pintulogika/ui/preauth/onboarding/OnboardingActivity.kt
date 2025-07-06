@@ -1,9 +1,7 @@
 package com.pika.pintulogika.ui.preauth.onboarding
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -12,13 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.pika.pintulogika.R
-import com.pika.pintulogika.data.session.SessionManager
+import com.digitallogic.core_data.session.SessionManager
 import com.pika.pintulogika.databinding.ActivityOnboardingBinding
 import com.pika.pintulogika.ui.preauth.role.RoleActivity
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import androidx.lifecycle.lifecycleScope
 import com.pika.pintulogika.ViewModelFactory
-import com.pika.pintulogika.utils.userDataStore
 import kotlinx.coroutines.launch
 
 class OnboardingActivity : AppCompatActivity() {

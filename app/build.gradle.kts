@@ -42,10 +42,12 @@ android {
 
 dependencies {
     implementation(project(":core:core_ui"))
+    implementation(project(":core:core_data"))
     implementation(project(":features:kelola_materi"))
     implementation(project(":features:kelola_kuis_materi"))
     implementation(project(":features:tampilkan_materi"))
     implementation(project(":features:halaman_materi"))
+    implementation(project(":features:halaman_simulasi"))
 
 
     implementation(libs.androidx.core.ktx)

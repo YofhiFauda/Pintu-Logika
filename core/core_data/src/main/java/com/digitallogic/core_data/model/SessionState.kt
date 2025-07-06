@@ -1,4 +1,4 @@
-package com.pika.pintulogika.data.model
+package com.digitallogic.core_data.model
 
 data class SessionState(
     val isFirstTimeLaunch: Boolean = true,

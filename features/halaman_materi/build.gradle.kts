@@ -38,6 +38,7 @@ android {
 
 dependencies {
     implementation(project(":core:core_ui"))
+    implementation(project(":core:core_data"))
 
     implementation(libs.firebase.firestore)
     implementation(libs.androidx.core.ktx)
