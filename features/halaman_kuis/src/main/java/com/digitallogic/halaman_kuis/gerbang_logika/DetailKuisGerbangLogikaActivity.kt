@@ -31,6 +31,7 @@ import androidx.core.view.setMargins
 import com.digitallogic.halaman_kuis.GateConfig
 import com.pika.core_ui.R as CoreUiR
 import com.digitallogic.halaman_kuis.LevelManager
+import kotlin.random.Random
 
 
 class DetailKuisGerbangLogikaActivity : AppCompatActivity() {
@@ -40,6 +41,7 @@ class DetailKuisGerbangLogikaActivity : AppCompatActivity() {
     private lateinit var manualLevelContainer: FrameLayout
     private lateinit var outputDots: List<View>
     private var hasUserInteracted = false
+    private var isInitialRandomized = false
 
     private val inputViews = mutableMapOf<String, FrameLayout>()
     private val gateViews = mutableMapOf<String, View>()
@@ -105,9 +107,74 @@ class DetailKuisGerbangLogikaActivity : AppCompatActivity() {
         }
 
         connectorView.post {
-            evaluateLogic()
-            drawConnections()
+            // Delay randomization to ensure layout is ready
+            Handler(Looper.getMainLooper()).postDelayed({
+                if (!isInitialRandomized) {
+                    randomizeInputs()
+                    isInitialRandomized = true
+                }
+                evaluateLogic()
+                drawConnections()
+            }, 100)
         }
+    }
+
+    // Fungsi baru untuk mengacak input dengan kondisi khusus
+    private fun randomizeInputs() {
+        val config = LevelManager.getLevelConfig(currentLevel) ?: return
+        val tempNodeValues = mutableMapOf<String, Boolean>()
+        var isValidCombination = false
+        var attempts = 0
+        val maxAttempts = 100
+
+        // Cari kombinasi yang tidak menyelesaikan level
+        while (!isValidCombination && attempts < maxAttempts) {
+            attempts++
+            tempNodeValues.clear()
+
+            // Acak nilai untuk setiap input
+            inputViews.keys.forEach { inputId ->
+                tempNodeValues[inputId] = Random.nextBoolean()
+            }
+
+            // Simpan nilai asli dan gunakan nilai acak sementara
+            val originalValues = nodeValues.toMutableMap()
+            nodeValues.putAll(tempNodeValues)
+
+            // Evaluasi logika tanpa pengecekan kemenangan
+            evaluateLogic(checkWin = false)
+
+            // Dapatkan output akhir
+            val finalOutput = config.gates.find { it.isFinal }?.let { nodeValues[it.id.uppercase()] } ?: false
+
+            // Kembalikan nilai asli
+            nodeValues.putAll(originalValues)
+
+            // Validasi kombinasi: tidak boleh menyelesaikan level
+            isValidCombination = (finalOutput != config.expectedOutput)
+        }
+
+        // Jika tidak ditemukan kombinasi valid, gunakan semua false
+        if (!isValidCombination) {
+            inputViews.keys.forEach { inputId ->
+                tempNodeValues[inputId] = false
+            }
+        }
+
+        // Terapkan nilai acak yang valid
+        tempNodeValues.forEach { (inputId, value) ->
+            nodeValues[inputId] = value
+            updateInputDots(inputId, value)
+        }
+    }
+
+    // Fungsi untuk memperbarui tampilan dot input
+    private fun updateInputDots(inputId: String, value: Boolean) {
+        val dotView = inputViews[inputId]?.findViewById<View>(R.id.dot_indicator)
+        dotView?.setBackgroundResource(
+            if (value) CoreUiR.drawable.green_dot_indicator_stroke
+            else CoreUiR.drawable.red_dot_indicator_stroke
+        )
     }
 
     private fun toggleInput(id: String) {
@@ -128,10 +195,11 @@ class DetailKuisGerbangLogikaActivity : AppCompatActivity() {
         drawConnections()
     }
 
-    private fun evaluateLogic() {
+    // Tambahkan parameter checkWin dengan default true
+    private fun evaluateLogic(checkWin: Boolean = true) {
         val config = LevelManager.getLevelConfig(currentLevel) ?: return
 
-        // Reset node values untuk gerbang
+        // Reset nilai node untuk gerbang logika
         gateViews.keys.forEach { nodeValues[it] = false }
 
         // Evaluasi gerbang secara topologi
@@ -159,14 +227,16 @@ class DetailKuisGerbangLogikaActivity : AppCompatActivity() {
             }
         } while (changed)
 
-        // Update UI dan cek hasil akhir
+        // Update indikator output
         val finalOutput = config.gates.find { it.isFinal }?.let { nodeValues[it.id.uppercase()] } ?: false
         updateOutputDots(finalOutput)
 
-        if (finalOutput == config.expectedOutput && hasUserInteracted) {
+        // Hanya cek kemenangan jika diizinkan dan user sudah berinteraksi
+        if (checkWin && hasUserInteracted && finalOutput == config.expectedOutput) {
             showLevelComplete()
         }
     }
+
 
     private fun calculateGateOutput(type: String, inputs: List<Boolean>): Boolean {
         return when (type.uppercase()) {
@@ -194,6 +264,7 @@ class DetailKuisGerbangLogikaActivity : AppCompatActivity() {
         hasUserInteracted = false
         inputViews.forEach { (key, view) ->
             nodeValues[key] = false
+            updateInputDots(key, false) // PERBAIKAN: gunakan updateInputDot
             val dotView = view.findViewById<View>(R.id.dot_indicator)
             dotView?.setBackgroundResource(CoreUiR.drawable.red_dot_indicator_stroke)
 
