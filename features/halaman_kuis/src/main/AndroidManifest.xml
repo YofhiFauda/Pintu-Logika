@@ -3,6 +3,9 @@
 
     <application>
         <activity
+            android:name=".gerbang_logika.DetailKuisGerbangLogikaActivity"
+            android:exported="false" />
+        <activity
             android:name=".gerbang_logika.KuisGerbangLogikaActivity"
             android:exported="false" />
         <activity

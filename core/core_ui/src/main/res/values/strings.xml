@@ -9,6 +9,13 @@
     <string name="desc_role">Buka Pintu Logika, Temukan Dunia Tanpa Batas. Menjadi jembatan bagi siapa pun, dari pemula hingga mahir, dengan memahami konsep logika dengan cara yang mudah dan menyenangkan.</string>
     <string name="pengguna">Pengguna</string>
     <string name="admin">Admin</string>
+
+
+    <string name="select_level">SELECT LEVEL</string>
+    <string name="level_complete">LEVEL COMPLETE</string>
+    <string name="next_level">Next Level</string>
+    <string name="restart">Restart</string>
+    <string name="selanjutnya">Selanjutnya</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

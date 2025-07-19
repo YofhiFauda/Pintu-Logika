@@ -1,10 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:background="@color/white"
+    android:padding="16dp"
     tools:context=".gerbang_logika.KuisGerbangLogikaActivity">
+
+        <!-- AppBar -->
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:minHeight="?attr/actionBarSize">
+
+                <ImageButton
+                    android:id="@+id/btnBackSimulasi"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:contentDescription="Back Button Simulasi"
+                    android:maxHeight="60dp"
+                    android:maxWidth="60dp"
+                    android:paddingBottom="10dp"
+                    android:src="@drawable/ic_arrow_back_24"
+                    android:background="@drawable/bg_button_3d_small_with_black_stroke" />
+
+                <TextView
+                    android:id="@+id/tvJudul"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SELECT LEVEL"
+                    android:textStyle="bold"
+                    android:textSize="24sp"
+                    android:layout_gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/poppins_medium" />
+
+                <ImageButton
+                    android:id="@+id/btnSound"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:contentDescription="Sound Button Simulasi"
+                    android:maxHeight="60dp"
+                    android:maxWidth="60dp"
+                    android:layout_gravity="end"
+                    android:paddingBottom="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_sound_on_24"
+                    android:background="@drawable/bg_button_3d_small_with_black_stroke" />
+
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvLevel"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/appbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="3"
+        tools:itemCount="15"
+        tools:listitem="@layout/item_level_gerbang_logika">
+
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
