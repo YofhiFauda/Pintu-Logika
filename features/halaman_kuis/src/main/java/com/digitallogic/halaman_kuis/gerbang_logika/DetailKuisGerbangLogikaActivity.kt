@@ -42,6 +42,9 @@ class DetailKuisGerbangLogikaActivity : AppCompatActivity() {
     private lateinit var outputDots: List<View>
     private var hasUserInteracted = false
     private var isInitialRandomized = false
+    private var moveCount = 0
+    private lateinit var countMoveTextView: TextView
+
 
     private val inputViews = mutableMapOf<String, FrameLayout>()
     private val gateViews = mutableMapOf<String, View>()
@@ -61,6 +64,9 @@ class DetailKuisGerbangLogikaActivity : AppCompatActivity() {
             findViewById(R.id.output_dot3)
         )
 
+        countMoveTextView = findViewById(R.id.countMove)
+        resetMoveCounter()
+
         setupButtons()
         inflateLevelLayout()
     }
@@ -68,11 +74,8 @@ class DetailKuisGerbangLogikaActivity : AppCompatActivity() {
     private fun setupButtons() {
         findViewById<ImageButton>(R.id.btnHome).setOnClickListener {
             SoundPlayer.playSound(this, CoreUiR.raw.water_bubble)
+            resetMoveCounter()
             finish()
-        }
-        findViewById<ImageButton>(R.id.btnRefresh).setOnClickListener {
-            SoundPlayer.playSound(this, CoreUiR.raw.water_bubble)
-            resetInputs()
         }
     }
 
@@ -118,6 +121,100 @@ class DetailKuisGerbangLogikaActivity : AppCompatActivity() {
             }, 100)
         }
     }
+
+    private fun incrementMoveCounter() {
+        moveCount++
+        countMoveTextView.text = moveCount.toString()
+    }
+
+    private fun resetMoveCounter() {
+        moveCount = 0
+        countMoveTextView.text = moveCount.toString()
+    }
+
+
+    // Fungsi untuk menghitung jumlah bintang berdasarkan moveCount dan level
+    private fun calculateStars(): Int {
+        return when (currentLevel) {
+            1 -> when {
+                moveCount <= 2 -> 3
+                moveCount <= 4 -> 2
+                else -> 1
+            }
+            2 -> when {
+                moveCount <= 3 -> 3
+                moveCount <= 5 -> 2
+                else -> 1
+            }
+            3 -> when {
+                moveCount <= 3 -> 3
+                moveCount <= 5 -> 2
+                else -> 1
+            }
+            4 -> when {
+                moveCount <= 3 -> 3
+                moveCount <= 5 -> 2
+                else -> 1
+            }
+            5 -> when {
+                moveCount <= 4 -> 3
+                moveCount <= 6 -> 2
+                else -> 1
+            }
+            6 -> when {
+                moveCount <= 4 -> 3
+                moveCount <= 6 -> 2
+                else -> 1
+            }
+            7 -> when {
+                moveCount <= 5 -> 3
+                moveCount <= 7 -> 2
+                else -> 1
+            }
+            8 -> when {
+                moveCount <= 5 -> 3
+                moveCount <= 7 -> 2
+                else -> 1
+            }
+            9 -> when {
+                moveCount <= 5 -> 3
+                moveCount <= 7 -> 2
+                else -> 1
+            }
+            10 -> when {
+                moveCount <= 6 -> 3
+                moveCount <= 8 -> 2
+                else -> 1
+            }
+            11 -> when {
+                moveCount <= 6 -> 3
+                moveCount <= 8 -> 2
+                else -> 1
+            }
+            12 -> when {
+                moveCount <= 6 -> 3
+                moveCount <= 8 -> 2
+                else -> 1
+            }
+            13 -> when {
+                moveCount <= 7 -> 3
+                moveCount <= 9 -> 2
+                else -> 1
+            }
+            14 -> when {
+                moveCount <= 8 -> 3
+                moveCount <= 10 -> 2
+                else -> 1
+            }
+            15 -> when {
+                moveCount <= 3 -> 3
+                moveCount <= 5 -> 2
+                else -> 1
+            }
+            else -> 1 // Default untuk level yang tidak terdefinisi
+        }
+    }
+
 
     // Fungsi baru untuk mengacak input dengan kondisi khusus
     private fun randomizeInputs() {
@@ -190,7 +287,7 @@ class DetailKuisGerbangLogikaActivity : AppCompatActivity() {
             else CoreUiR.drawable.red_dot_indicator_stroke
         )
 
-
+        incrementMoveCounter()
         evaluateLogic()
         drawConnections()
     }
@@ -262,6 +359,7 @@ class DetailKuisGerbangLogikaActivity : AppCompatActivity() {
 
     private fun resetInputs() {
         hasUserInteracted = false
+        resetMoveCounter()
         inputViews.forEach { (key, view) ->
             nodeValues[key] = false
             updateInputDots(key, false) // PERBAIKAN: gunakan updateInputDot
@@ -288,13 +386,14 @@ class DetailKuisGerbangLogikaActivity : AppCompatActivity() {
             }
         }
 
-        saveProgress()
+        val stars = calculateStars()
+        saveProgress(stars)
         Handler(Looper.getMainLooper()).postDelayed({
-            showLevelCompleteDialog()
+            showLevelCompleteDialog(stars)
         }, 1500)
     }
 
-    private fun showLevelCompleteDialog() {
+    private fun showLevelCompleteDialog(stars: Int) {
         SoundPlayer.playSound(this, CoreUiR.raw.achievement)
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_level_complete, null)
         val dialog = Dialog(this, CoreUiR.style.FullScreenDialog)
@@ -303,15 +402,55 @@ class DetailKuisGerbangLogikaActivity : AppCompatActivity() {
 
         dialogView.findViewById<TextView>(R.id.tvLevel).text = "LEVEL $currentLevel"
 
+        // Update dots berdasarkan jumlah stars yang didapat
+        val dot1 = dialogView.findViewById<View>(R.id.dot1)
+        val dot2 = dialogView.findViewById<View>(R.id.dot2)
+        val dot3 = dialogView.findViewById<View>(R.id.dot3)
+
+        // Reset semua dots ke merah dulu
+        dot1.setBackgroundResource(CoreUiR.drawable.red_dot_indicator_stroke)
+        dot2.setBackgroundResource(CoreUiR.drawable.red_dot_indicator_stroke)
+        dot3.setBackgroundResource(CoreUiR.drawable.red_dot_indicator_stroke)
+
+        // Set dots sesuai dengan jumlah stars
+        when (stars) {
+            3 -> {
+                dot1.setBackgroundResource(CoreUiR.drawable.green_dot_indicator_stroke)
+                dot2.setBackgroundResource(CoreUiR.drawable.green_dot_indicator_stroke)
+                dot3.setBackgroundResource(CoreUiR.drawable.green_dot_indicator_stroke)
+            }
+            2 -> {
+                dot1.setBackgroundResource(CoreUiR.drawable.green_dot_indicator_stroke)
+                dot2.setBackgroundResource(CoreUiR.drawable.green_dot_indicator_stroke)
+            }
+            1 -> {
+                dot1.setBackgroundResource(CoreUiR.drawable.green_dot_indicator_stroke)
+            }
+        }
+
+        dialogView.findViewById<Button>(R.id.btnUlangi).setOnClickListener {
+            SoundPlayer.playSound(this, CoreUiR.raw.water_bubble)
+            dialog.dismiss()
+            resetMoveCounter()
+            resetInputs()
+            val resetLevel = currentLevel
+            val intent = Intent(this, DetailKuisGerbangLogikaActivity::class.java)
+            intent.putExtra("LEVEL_NUMBER", resetLevel)
+            startActivity(intent)
+            finish()
+        }
+
         dialogView.findViewById<Button>(R.id.btnKembali).setOnClickListener {
             SoundPlayer.playSound(this, CoreUiR.raw.water_bubble)
             dialog.dismiss()
+            resetMoveCounter()
             finish()
         }
 
         dialogView.findViewById<Button>(R.id.btnSelanjutnya).setOnClickListener {
             SoundPlayer.playSound(this, CoreUiR.raw.water_bubble)
             dialog.dismiss()
+            resetMoveCounter()
             val nextLevel = currentLevel + 1
             val intent = Intent(this, DetailKuisGerbangLogikaActivity::class.java)
             intent.putExtra("LEVEL_NUMBER", nextLevel)
@@ -322,14 +461,23 @@ class DetailKuisGerbangLogikaActivity : AppCompatActivity() {
         if (!isFinishing && !isDestroyed) dialog.show()
     }
 
-    private fun saveProgress() {
+    private fun saveProgress(stars: Int) {
         val prefs = getSharedPreferences("game_prefs", MODE_PRIVATE)
         val editor = prefs.edit()
-        editor.putInt("stars_level_$currentLevel", 3)
+        // Simpan bintang yang didapat untuk level ini
+        val currentStars = prefs.getInt("stars_level_$currentLevel", 0)
+        if (stars > currentStars) {
+            editor.putInt("stars_level_$currentLevel", stars)
+        }
+
+        // Unlock level selanjutnya jika belum di-unlock
         if (currentLevel >= prefs.getInt("unlocked_level", 1)) {
             editor.putInt("unlocked_level", currentLevel + 1)
         }
         editor.apply()
+
+        // Log untuk debugging
+        Log.d("Progress", "Level $currentLevel completed with $stars stars. Move count: $moveCount")
     }
 
     @SuppressLint("DiscouragedApi")
