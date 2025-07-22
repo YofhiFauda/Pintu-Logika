@@ -28,6 +28,7 @@
             android:paddingTop="16dp"
             android:paddingBottom="32dp">
 
+            <!-- ======= Materi Pembelajaran ======= -->
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
@@ -43,21 +44,12 @@
                 android:layout_height="wrap_content"
                 app:boxStrokeColor="@color/orange_medium">
 
-                <!--                <com.google.android.material.textfield.TextInputEditText-->
-                <!--                    android:id="@+id/et_nama_modul"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:hint="Masukan Nama Modul"-->
-                <!--                    android:fontFamily="@font/poppins_medium"-->
-                <!--                    android:textColor="@color/black" />-->
-
                 <Spinner
                     android:id="@+id/spinnerMateriPembelajaran"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
 
             <!-- ======= Nama Modul ======= -->
             <TextView
@@ -76,14 +68,6 @@
                 android:layout_height="wrap_content"
                 app:boxStrokeColor="@color/orange_medium">
 
-<!--                <com.google.android.material.textfield.TextInputEditText-->
-<!--                    android:id="@+id/et_nama_modul"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:hint="Masukan Nama Modul"-->
-<!--                    android:fontFamily="@font/poppins_medium"-->
-<!--                    android:textColor="@color/black" />-->
-
                 <Spinner
                     android:id="@+id/spinnerModul"
                     android:layout_width="match_parent"
@@ -91,13 +75,11 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Spasi -->
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="12dp" />
 
             <!-- ======= Nama Sub Modul ======= -->
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -121,7 +103,6 @@
                     android:hint="Masukan Nama Sub Modul"
                     android:fontFamily="@font/poppins_medium"
                     android:textColor="@color/black" />
-
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -192,33 +173,321 @@
                 android:layout_width="match_parent"
                 android:layout_height="12dp" />
 
-            <!-- ======= Konten (multiline) ======= -->
+            <!-- ======= BAGIAN DYNAMIC CONTENT ======= -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_medium"
-                android:text="Konten Materi"
+                android:fontFamily="@font/poppins_bold"
+                android:text="Konten Dinamis"
                 android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_konten"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            <!-- Dynamic Content Container -->
+            <LinearLayout
+                android:id="@+id/dynamic_content_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hintEnabled="false"
-                app:boxStrokeColor="@color/orange_medium">
+                android:orientation="vertical">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_konten"
+                <!-- Preview Area -->
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:fontFamily="@font/poppins_medium"
-                    android:gravity="start|top"
-                    android:hint="Masukan Konten Materi"
-                    android:inputType="textMultiLine"
-                    android:textColor="@color/black" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="2dp"
+                    app:cardBackgroundColor="@color/gray_500">
+
+                    <LinearLayout
+                        android:id="@+id/content_preview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:minHeight="100dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Preview Konten"
+                            android:fontFamily="@font/poppins_medium"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:gravity="center"
+                            android:layout_gravity="center" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <!-- Control Buttons -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginBottom="12dp">
+
+                    <Button
+                        android:id="@+id/btn_add_text"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="4dp"
+                        android:backgroundTint="@color/blue_medium"
+                        android:fontFamily="@font/poppins_medium"
+                        android:stateListAnimator="@null"
+                        android:text="+ Teks"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <Button
+                        android:id="@+id/btn_add_image"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:layout_marginHorizontal="4dp"
+                        android:backgroundTint="@color/green_500"
+                        android:fontFamily="@font/poppins_medium"
+                        android:stateListAnimator="@null"
+                        android:text="+ Gambar"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <Button
+                        android:id="@+id/btn_add_link"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="4dp"
+                        android:backgroundTint="@color/black"
+                        android:fontFamily="@font/poppins_medium"
+                        android:stateListAnimator="@null"
+                        android:text="+ Link"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <!-- Content Editor Area -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/editor_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="2dp"
+                    app:cardBackgroundColor="@color/white"
+                    android:layout_marginBottom="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:id="@+id/editor_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Tambah Konten"
+                            android:fontFamily="@font/poppins_medium"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:layout_marginBottom="8dp" />
+
+                        <!-- Text Editor -->
+                        <LinearLayout
+                            android:id="@+id/text_editor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:boxStrokeColor="@color/orange_medium">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/et_text_content"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Masukan teks"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:textColor="@color/black"
+                                    android:inputType="textMultiLine"
+                                    android:minLines="3" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <!-- Text Style Options -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="8dp">
+
+                                <Spinner
+                                    android:id="@+id/spinner_text_style"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_marginEnd="8dp" />
+
+                                <Spinner
+                                    android:id="@+id/spinner_text_align"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <!-- Image Editor -->
+                        <LinearLayout
+                            android:id="@+id/image_editor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <Button
+                                android:id="@+id/btn_select_image"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:backgroundTint="@color/gray_500"
+                                android:fontFamily="@font/poppins_medium"
+                                android:stateListAnimator="@null"
+                                android:text="Pilih Gambar"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
+                                android:textSize="14sp"
+                                android:layout_marginBottom="8dp" />
+
+                            <ImageView
+                                android:id="@+id/iv_preview"
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp"
+                                android:scaleType="centerCrop"
+                                android:background="@color/blue_light"
+                                android:visibility="gone" />
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:boxStrokeColor="@color/orange_medium"
+                                android:layout_marginTop="8dp">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/et_image_caption"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Caption gambar (opsional)"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:textColor="@color/black" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <Spinner
+                                android:id="@+id/spinner_image_align"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp" />
+
+                        </LinearLayout>
+
+                        <!-- Link Editor -->
+                        <LinearLayout
+                            android:id="@+id/link_editor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:boxStrokeColor="@color/orange_medium"
+                                android:layout_marginBottom="8dp">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/et_link_text"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Teks link"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:textColor="@color/black" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:boxStrokeColor="@color/orange_medium">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/et_link_url"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="URL link"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:textColor="@color/black"
+                                    android:inputType="textUri" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                        </LinearLayout>
+
+                        <!-- Editor Action Buttons -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp"
+                            android:gravity="end">
+
+                            <Button
+                                android:id="@+id/btn_cancel_edit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="36dp"
+                                android:backgroundTint="@color/black"
+                                android:fontFamily="@font/poppins_medium"
+                                android:stateListAnimator="@null"
+                                android:text="Batal"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:layout_marginEnd="8dp" />
+
+                            <Button
+                                android:id="@+id/btn_add_content"
+                                android:layout_width="wrap_content"
+                                android:layout_height="36dp"
+                                android:backgroundTint="@color/orange_medium"
+                                android:fontFamily="@font/poppins_medium"
+                                android:stateListAnimator="@null"
+                                android:text="Tambah"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
 
             <!-- ======= Tombol Simpan ======= -->
             <Button
@@ -229,11 +498,13 @@
                 android:backgroundTint="@color/orange_medium"
                 android:fontFamily="@font/poppins_medium"
                 android:stateListAnimator="@null"
-                android:text="Simpan"
+                android:text="Simpan Materi"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
+
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

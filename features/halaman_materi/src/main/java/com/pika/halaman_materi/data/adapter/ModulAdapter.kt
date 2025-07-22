@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.pika.halaman_materi.data.model.Modul
+import com.digitallogic.core_data.model.materi.Modul
 import com.pika.halaman_materi.R
 import android.content.Intent
 import com.pika.halaman_materi.data.session.ProgressPreferences

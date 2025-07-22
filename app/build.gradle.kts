@@ -16,6 +16,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "IMAGEKIT_PUBLIC_KEY", "\"${project.findProperty("imagekitPublicKey")}\"")
+        buildConfigField("String", "IMAGEKIT_PRIVATE_KEY", "\"${project.findProperty("imagekitPrivateKey")}\"")
     }
 
     buildTypes {
@@ -37,6 +40,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 

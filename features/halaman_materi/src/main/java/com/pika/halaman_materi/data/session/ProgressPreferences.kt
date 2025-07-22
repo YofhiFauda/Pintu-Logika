@@ -28,6 +28,17 @@ class  ProgressPreferences (private val context: Context) {
             prefs[statusKey(submodulId)] ?: false
         }
     }
+
+    suspend fun getReadSubmodules(): Set<String> {
+        return context.dataStore.data.first().asMap().mapNotNull {
+            val key = it.key.name
+            if (key.startsWith("submodul_") && it.value == true) {
+                key.removePrefix("submodul_")
+            } else null
+        }.toSet()
+    }
+
+
 }
 
 

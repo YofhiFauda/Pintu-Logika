@@ -2,28 +2,29 @@ package com.pika.halaman_materi.data.modul_list
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pika.halaman_materi.R
 import com.pika.halaman_materi.data.adapter.ModulAdapter
-import com.pika.halaman_materi.data.model.Modul
-import com.pika.halaman_materi.data.model.SubModul
+import com.digitallogic.core_data.model.materi.Modul
 import android.util.Log
 import android.widget.ProgressBar
 import android.widget.TextView
-import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.Tasks
+import androidx.lifecycle.lifecycleScope
+import com.digitallogic.core_data.model.materi.ContentItem
+import com.digitallogic.core_data.model.materi.ContentType
+import com.digitallogic.core_data.model.materi.SubModulDynamic
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
+import com.pika.halaman_materi.data.session.ProgressPreferences
 import com.pika.halaman_materi.utils.OnProgressUpdateListener
+import kotlinx.coroutines.launch
 
 class ModulListFragment : Fragment(R.layout.fragment_modul_list) {
 
     private lateinit var rvModulList: RecyclerView
     private val firestore = FirebaseFirestore.getInstance()
+    private lateinit var progressPreferences: ProgressPreferences
     private val listModul = mutableListOf<Modul>()
     private lateinit var adapter: ModulAdapter
     private var materiId: String? = null
@@ -43,6 +44,7 @@ class ModulListFragment : Fragment(R.layout.fragment_modul_list) {
         tvProgressPercent = view.findViewById(R.id.tvProgressPercent)
 
         rvModulList.layoutManager = LinearLayoutManager(requireContext())
+        progressPreferences = ProgressPreferences(requireContext())
 
 
         if (materiId != null) {
@@ -83,7 +85,7 @@ class ModulListFragment : Fragment(R.layout.fragment_modul_list) {
 
                 for (modulDoc in modulDocs) {
                     val namaModul = modulDoc.getString("nama_modul") ?: continue
-                    val modulId = namaModul.replace(" ", "_").lowercase() // ⬅️ gunakan ini, sesuai struktur Firestore
+                    val modulId = namaModul.replace(" ", "_").lowercase() // sesuai struktur koleksi
 
                     firestore.collection("materi_$materiId")
                         .document(modulId)
@@ -93,9 +95,42 @@ class ModulListFragment : Fragment(R.layout.fragment_modul_list) {
                             val subModulList = subSnapshot.documents.mapNotNull { subDoc ->
                                 val nama = subDoc.getString("nama_sub_modul") ?: return@mapNotNull null
                                 val judul = subDoc.getString("judul_materi") ?: ""
-                                val konten = subDoc.getString("konten") ?: ""
                                 val tanggal = subDoc.getString("tanggal_upload") ?: ""
-                                SubModul(nama, judul, konten, tanggal)
+                                val isSelesai = subDoc.getBoolean("is_selesai") ?: false
+
+                                val contentList = mutableListOf<ContentItem>()
+
+                                val rawContent = subDoc.get("dynamic_content") as? List<*>
+                                rawContent?.forEach { item ->
+                                    val map = item as? Map<*, *> ?: return@forEach
+                                    val typeString = map["type"] as? String ?: "TEXT"
+
+                                    val type = try {
+                                        ContentType.valueOf(typeString.uppercase())
+                                    } catch (e: IllegalArgumentException) {
+                                        ContentType.TEXT
+                                    }
+
+                                    val contentItem = ContentItem(
+                                        type = type,
+                                        content = map["content"] as? String ?: "",
+                                        style = map["style"] as? String ?: "",
+                                        alignment = map["alignment"] as? String ?: "left",
+                                        imageUrl = map["imageUrl"] as? String ?: "",
+                                        caption = map["caption"] as? String ?: "",
+                                        linkText = map["linkText"] as? String ?: "",
+                                        linkUrl = map["linkUrl"] as? String ?: ""
+                                    )
+                                    contentList.add(contentItem)
+                                }
+
+                                SubModulDynamic(
+                                    nama = nama,
+                                    judul = judul,
+                                    tanggalUpload = tanggal,
+                                    dynamicContent = contentList,
+                                    isSelesai = isSelesai
+                                )
                             }
 
                             Log.d("ModulListFragment", "Modul: $namaModul | Submodul: ${subModulList.size}")
@@ -103,8 +138,24 @@ class ModulListFragment : Fragment(R.layout.fragment_modul_list) {
 
                             completed++
                             if (completed == modulDocs.size) {
-                                listModul.addAll(tempList)
-                                adapter.notifyDataSetChanged()
+                                lifecycleScope.launch {
+                                    val readSubmoduls = getReadSubmodules()
+                                    val updatedList = tempList.map { modul ->
+                                        val updatedSubs = modul.subModul.map { sub ->
+                                            sub.copy(isSelesai = readSubmoduls.contains(sub.nama))
+                                        }
+                                        modul.copy(subModul = updatedSubs)
+                                    }
+
+                                    listModul.addAll(updatedList)
+                                    adapter.notifyDataSetChanged()
+
+                                    // Hitung progress
+                                    val total = updatedList.sumOf { it.subModul.size }
+                                    val completedCount = updatedList.sumOf { it.subModul.count { it.isSelesai } }
+                                    progressListener.onProgressUpdate(total, completedCount)
+                                }
+
                                 Log.d("ModulListFragment", "Jumlah modul: ${listModul.size}")
                             }
                         }
@@ -121,6 +172,10 @@ class ModulListFragment : Fragment(R.layout.fragment_modul_list) {
             .addOnFailureListener {
                 Log.e("Firestore", "Gagal ambil modul utama: ${it.message}")
             }
+    }
+
+    private suspend fun getReadSubmodules(): Set<String> {
+        return context?.let { ProgressPreferences(it).getReadSubmodules() } ?: emptySet()
     }
 
 

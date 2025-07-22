@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.parcelize)
+
 }
 
 android {
@@ -12,6 +14,10 @@ android {
         minSdk = 27
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField("String", "IMAGEKIT_PUBLIC_KEY", "\"${project.findProperty("imagekitPublicKey")}\"")
+        buildConfigField("String", "IMAGEKIT_PRIVATE_KEY", "\"${project.findProperty("imagekitPrivateKey")}\"")
+
     }
 
     buildTypes {
@@ -23,12 +29,16 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
         jvmTarget = "11"
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }
 
@@ -43,6 +53,13 @@ dependencies {
     implementation(libs.kotlinx.coroutines)
     implementation(libs.kotlinx.coroutines.play.services)
     implementation(libs.androidx.fragment.ktx)
+    implementation(libs.firebase.storage.ktx)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.okhttp)
+    implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.logging.interceptor)
+    implementation(platform { libs.firebase.bom })
 
 
     testImplementation(libs.junit)
