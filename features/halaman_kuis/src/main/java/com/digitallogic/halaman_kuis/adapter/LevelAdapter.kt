@@ -39,22 +39,6 @@ class LevelAdapter(
         fun bind(level: LevelLogicGates) {
             levelNumber.text = level.number.toString()
 
-            // Set background based on unlock status
-            if (level.isUnlocked) {
-                levelContainer.background = ContextCompat.getDrawable(
-                    itemView.context,
-                    android.R.color.darker_gray
-                )
-                levelContainer.isEnabled = true
-                levelContainer.alpha = 1.0f
-            } else {
-                levelContainer.background = ContextCompat.getDrawable(
-                    itemView.context,
-                    android.R.color.black
-                )
-                levelContainer.isEnabled = false
-                levelContainer.alpha = 0.5f
-            }
 
             // Set stars
             setDotColor(star1, level.stars >= 1)

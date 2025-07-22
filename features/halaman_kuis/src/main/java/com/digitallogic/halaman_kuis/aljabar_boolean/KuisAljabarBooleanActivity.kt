@@ -1,17 +1,30 @@
 package com.digitallogic.halaman_kuis.aljabar_boolean
 
-import android.graphics.Color
+
+import android.graphics.Typeface
 import android.os.Bundle
+import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.digitallogic.halaman_kuis.ColorType
 import com.digitallogic.halaman_kuis.GameStageManager
 import com.digitallogic.halaman_kuis.GridItem
 import com.digitallogic.halaman_kuis.databinding.ActivityKuisAljabarBooleanBinding
+import com.pika.core_ui.R
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.ImageSpan
+import android.graphics.drawable.Drawable
+import androidx.core.content.res.ResourcesCompat
+
 
 class KuisAljabarBooleanActivity : AppCompatActivity() {
 
@@ -29,10 +42,6 @@ class KuisAljabarBooleanActivity : AppCompatActivity() {
 
         setupStage(currentStage)
 
-        binding.btnSubmit.setOnClickListener {
-            checkAnswer()
-        }
-
         binding.btnBackSimulasi.setOnClickListener {
             finish()
         }
@@ -42,7 +51,8 @@ class KuisAljabarBooleanActivity : AppCompatActivity() {
     private fun setupStage(stage: Int) {
         val stageData = GameStageManager.getStage(stage)
         binding.tvScore.text = "Score: $score"
-        binding.tvLogic.text = stageData.description
+        binding.tvLogic.text = renderDeskripsiDenganWarna(stageData.description)
+        binding.textHasil.text = "Pilih Jawaban Sesuai Kotak"
         binding.gridLayout.removeAllViews()
         gridItems.clear()
 
@@ -71,16 +81,30 @@ class KuisAljabarBooleanActivity : AppCompatActivity() {
 
                 val button = Button(this).apply {
                     text = number.toString()
-                    setBackgroundColor(getColorByType(color))
+                    textSize = 24f
+                    setTypeface(null, Typeface.BOLD)
+                    background = ContextCompat.getDrawable(context, getSelectorDrawable(color))
+                    setTextColor(
+                        ContextCompat.getColorStateList(
+                            context,
+                            getSelectorTextColor(color)
+                        )
+                    ) // ← ini pakai selector!
+                    gravity = Gravity.CENTER
+
                     setOnClickListener {
                         item.isSelected = !item.isSelected
-                        background.setTint(if (item.isSelected) Color.BLACK else getColorByType(color))
+                        isSelected = item.isSelected // trigger selector state
+
+
+                        checkAnswer()
                     }
                 }
 
+
                 val params = GridLayout.LayoutParams().apply {
-                    width = 200
-                    height = 200
+                    width = 300
+                    height = 300
                     setMargins(8, 8, 8, 8)
                 }
 
@@ -90,40 +114,104 @@ class KuisAljabarBooleanActivity : AppCompatActivity() {
         }
     }
 
-    private fun getColorByType(type: ColorType): Int {
-        return when (type) {
-            ColorType.MERAH -> Color.RED
-            ColorType.HIJAU -> Color.GREEN
-            ColorType.ORANYE -> Color.rgb(255, 165, 0)
+    private fun getSelectorTextColor(color: ColorType): Int {
+        return when (color) {
+            ColorType.MERAH -> R.color.text_color_red_selector
+            ColorType.HIJAU -> R.color.text_color_green_selector
+            ColorType.ORANYE -> R.color.text_color_orange_selector
         }
     }
 
+
+    private fun getSelectorDrawable(type: ColorType): Int {
+        return when (type) {
+            ColorType.MERAH -> R.drawable.bg_red_selector
+            ColorType.HIJAU -> R.drawable.bg_green_selector
+            ColorType.ORANYE -> R.drawable.bg_orange_selector
+        }
+    }
+
+
     private fun checkAnswer() {
         val stageData = GameStageManager.getStage(currentStage)
-        var isAllCorrect = true
 
         for (i in 0..2) {
             for (j in 0..2) {
                 val item = gridItems[i][j]
                 val shouldBeSelected = stageData.logicFunction(item)
 
-                if (item.isSelected != shouldBeSelected) {
-                    isAllCorrect = false
-                    break
+                if (item.isSelected && !shouldBeSelected) {
+                    binding.textHasil.text = "Jawaban Anda Salah!"
+
+                    // ⏳ Delay sebelum reset
+                    lifecycleScope.launch {
+                        delay(1500)
+                        currentStage = 1
+                        score = 0
+                        setupStage(currentStage)
+                    }
+                    return
                 }
             }
         }
 
+        val isAllCorrect = gridItems.flatten().all {
+            val shouldBeSelected = stageData.logicFunction(it)
+            !shouldBeSelected || (shouldBeSelected && it.isSelected)
+        }
+
         if (isAllCorrect) {
+            binding.textHasil.text = "Jawaban Anda Benar"
             score += 5
             currentStage++
-            if (currentStage <= GameStageManager.totalStages) {
-                setupStage(currentStage)
-            } else {
-                Toast.makeText(this, "Permainan Selesai!", Toast.LENGTH_SHORT).show()
+
+            lifecycleScope.launch {
+                delay(1500)
+                if (currentStage <= GameStageManager.totalStages) {
+                    setupStage(currentStage)
+                } else {
+                    Toast.makeText(
+                        this@KuisAljabarBooleanActivity,
+                        "Permainan Selesai!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
-        } else {
-            Toast.makeText(this, "Jawaban salah!", Toast.LENGTH_SHORT).show()
         }
     }
+
+    private fun renderDeskripsiDenganWarna(rawText: String): SpannableStringBuilder {
+        val builder = SpannableStringBuilder(rawText)
+
+        val colorMap = mapOf(
+            "merah" to R.drawable.ic_dot_red,
+            "hijau" to R.drawable.ic_dot_green,
+            "oranye" to R.drawable.ic_dot_orange
+        )
+
+        for ((colorWord, drawableRes) in colorMap) {
+            var index = builder.indexOf(colorWord)
+            while (index >= 0) {
+                val drawable = ResourcesCompat.getDrawable(resources, drawableRes, null)?.apply {
+                    setBounds(0, 0, dpToPx(20), dpToPx(20)) // ukuran ikon 12px (setara 5dp kira-kira)
+                }
+
+                if (drawable != null) {
+                    val imageSpan = ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM)
+                    builder.setSpan(imageSpan, index, index + colorWord.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }
+
+                index = builder.indexOf(colorWord, index + 1)
+            }
+        }
+
+        return builder
+    }
+
+    private fun dpToPx(dp: Int): Int {
+        val scale = resources.displayMetrics.density
+        return (dp * scale + 0.5f).toInt()
+    }
+
 }
+

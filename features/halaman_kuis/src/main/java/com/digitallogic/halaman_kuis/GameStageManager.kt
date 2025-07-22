@@ -16,7 +16,7 @@ object GameStageManager {
                 { it.number == 1 && it.color == ColorType.HIJAU })
             4 -> StageData(4, "2 or hijau",
                 { it.number == 2 || it.color == ColorType.HIJAU })
-            5 -> StageData(5, "not (1 or merah)",
+            5 -> StageData(5, "not 1 or merah",
                 { it.number != 1 && it.color != ColorType.MERAH })
             6 -> StageData(6, "not 2 and not merah",
                 { (it.number != 2 && it.color != ColorType.MERAH) })
@@ -24,9 +24,9 @@ object GameStageManager {
                 { it.color == ColorType.HIJAU && it.number != 3 })
             8 -> StageData(8, "1 or not hijau",
                 { it.number == 1 || it.color != ColorType.HIJAU })
-            9 -> StageData(9, "not (hijau or merah)",
+            9 -> StageData(9, "not hijau or merah",
                 { it.color != ColorType.HIJAU && it.color != ColorType.MERAH })
-            10 -> StageData(10, "(1 or 3) and not merah",
+            10 -> StageData(10, "1 or 3 and not merah",
                 { (it.number == 1 || it.number == 3) && it.color != ColorType.MERAH })
             11 -> StageData(11, "not 1 and not hijau", {
                 (it.number != 1) && (it.color != ColorType.HIJAU)
@@ -34,10 +34,10 @@ object GameStageManager {
             12 -> StageData(12, "not 2 and oranye", {
                 it.number != 2 && it.color == ColorType.ORANYE
             })
-            13 -> StageData(13, "(2 or 3) and hijau", {
+            13 -> StageData(13, "2 or 3 and hijau", {
                 (it.number == 2 || it.number == 3) && it.color == ColorType.HIJAU
             })
-            14 -> StageData(14, "(not 1 or 3) and not merah", {
+            14 -> StageData(14, "not 1 or 3 and not merah", {
                 (it.number != 1 || it.number == 3) && it.color != ColorType.MERAH
             })
             15 -> StageData(15, "not (3 or hijau)", {

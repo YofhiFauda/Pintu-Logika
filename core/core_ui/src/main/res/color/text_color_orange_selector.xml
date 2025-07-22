@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Warna saat tombol dipilih -->
+    <item android:color="@color/orange_medium" android:state_selected="true" /> <!-- Putih -->
+    <!-- Warna default saat tidak dipilih -->
+    <item android:color="@android:color/white" /> <!-- Hitam -->
+</selector>

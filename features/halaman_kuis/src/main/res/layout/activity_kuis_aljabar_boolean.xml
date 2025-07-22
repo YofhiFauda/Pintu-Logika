@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@color/white"
-    android:padding="16dp">
+    android:theme="@style/Theme.PintuLogika"
+    android:layout_margin="16dp">
 
     <!-- AppBar -->
     <com.google.android.material.appbar.AppBarLayout
@@ -66,23 +67,28 @@
             <!-- Kode Soal -->
             <TextView
                 android:id="@+id/tvScore"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="342512"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"
-                android:background="@android:color/holo_orange_light"
+                android:gravity="center"
+                android:layout_marginHorizontal="20dp"
+                android:background="@drawable/final_gate_background"
                 android:padding="12dp"
                 android:layout_marginTop="12dp" />
 
             <!-- Soal -->
             <TextView
                 android:id="@+id/tvLogic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_outline_small"
+                android:layout_marginHorizontal="20dp"
                 android:text="not 1  not 🔴"
-                android:textSize="16sp"
-                android:layout_marginTop="12dp" />
+                android:gravity="center"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp" />
 
             <!-- Grid Jawaban -->
             <GridLayout
@@ -96,23 +102,20 @@
                 android:useDefaultMargins="true" />
 
             <!-- Tombol Submit -->
-            <Button
-                android:id="@+id/btnSubmit"
+            <TextView
+                android:id="@+id/textHasil"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:layout_marginHorizontal="20dp"
                 android:text="Pilih Jawaban Sesuai Kotak"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="@android:color/holo_orange_light" />
+                android:textStyle="bold"
+                android:fontFamily="@font/poppins_medium"
+                android:textColor="@android:color/black"
+                android:background="@drawable/bg_outline_small"/>
 
-            <!-- Hasil -->
-            <TextView
-                android:id="@+id/resultText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="18sp"
-                android:layout_marginTop="12dp"
-                android:textStyle="bold" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

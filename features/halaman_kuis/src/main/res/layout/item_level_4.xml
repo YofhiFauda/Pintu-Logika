@@ -93,7 +93,7 @@
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
+            android:layout_marginHorizontal="25dp"
             android:tag="input2">
             <include
                 android:id="@+id/input_2"
@@ -105,7 +105,7 @@
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
+            android:layout_marginHorizontal="25dp"
             android:tag="input3">
             <include
                 android:id="@+id/input_3"
