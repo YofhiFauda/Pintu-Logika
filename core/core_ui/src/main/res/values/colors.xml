@@ -27,4 +27,23 @@
     <color name="blue_medium">#2196F3</color>
     <color name="blue_light">#90CAF9</color>
 
+
+    <!-- Orange Theme Colors -->
+    <color name="orange_primary">#EA580C</color>
+    <color name="orange_lighter">#FFF7ED</color>
+    <color name="orange_border">#FDBA74</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#1F2937</color>
+    <color name="text_secondary">#374151</color>
+    <color name="text_tertiary">#6B7280</color>
+
+    <!-- Background Colors -->
+    <color name="background_white">#FFFFFF</color>
+    <color name="background_gray">#F9FAFB</color>
+
+    <!-- Badge Colors -->
+    <color name="badge_background">#E5E7EB</color>
+    <color name="badge_text">#6B7280</color>
+
 </resources>
