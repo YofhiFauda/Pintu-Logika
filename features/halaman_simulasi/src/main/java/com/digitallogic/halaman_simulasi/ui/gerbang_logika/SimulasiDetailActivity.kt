@@ -1,4 +1,4 @@
-package com.digitallogic.halaman_simulasi.ui
+package com.digitallogic.halaman_simulasi.ui.gerbang_logika
 
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -12,14 +12,11 @@ import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import com.digitallogic.halaman_simulasi.R
 import com.digitallogic.halaman_simulasi.databinding.ActivitySimulasiDetailBinding
-import androidx.core.view.updatePadding
+import com.pika.core_ui.R
 
 class SimulasiDetailActivity : AppCompatActivity() {
 
@@ -54,9 +51,9 @@ class SimulasiDetailActivity : AppCompatActivity() {
         }
 
 
-        val red = ContextCompat.getColor(this, com.pika.core_ui.R.color.red_500)
-        val green = ContextCompat.getColor(this, com.pika.core_ui.R.color.green_500)
-        val gray = ContextCompat.getColor(this, com.pika.core_ui.R.color.gray_500)
+        val red = ContextCompat.getColor(this, R.color.red_500)
+        val green = ContextCompat.getColor(this, R.color.green_500)
+        val gray = ContextCompat.getColor(this, R.color.gray_500)
 
         // Warna awal switch
         updateSwitchTrack(binding.switch1, binding.switch1.isChecked, red, gray)
@@ -73,6 +70,9 @@ class SimulasiDetailActivity : AppCompatActivity() {
         }
 
 
+        binding.btnInfoSimulasi.setOnClickListener {
+            showGateInfoDialog()
+        }
 
         updateLamp()
         setupTruthTable(gateType)
@@ -91,14 +91,14 @@ class SimulasiDetailActivity : AppCompatActivity() {
 
     private fun getGateDrawable(gate: String): Int {
         return when (gate.uppercase()) {
-            "LOGIKA AND" -> com.pika.core_ui.R.drawable.ic_gate_and
-            "LOGIKA OR" -> com.pika.core_ui.R.drawable.ic_gate_or
-            "LOGIKA NOT" -> com.pika.core_ui.R.drawable.ic_gate_not
-            "LOGIKA NAND" -> com.pika.core_ui.R.drawable.ic_gate_nand
-            "LOGIKA NOR" -> com.pika.core_ui.R.drawable.ic_gate_nor
-            "LOGIKA XOR" -> com.pika.core_ui.R.drawable.ic_gate_xor
-            "LOGIKA XNOR" -> com.pika.core_ui.R.drawable.ic_gate_xnor
-            else -> com.pika.core_ui.R.drawable.ic_gate_and // default
+            "LOGIKA AND" -> R.drawable.ic_gate_and
+            "LOGIKA OR" -> R.drawable.ic_gate_or
+            "LOGIKA NOT" -> R.drawable.ic_gate_not
+            "LOGIKA NAND" -> R.drawable.ic_gate_nand
+            "LOGIKA NOR" -> R.drawable.ic_gate_nor
+            "LOGIKA XOR" -> R.drawable.ic_gate_xor
+            "LOGIKA XNOR" -> R.drawable.ic_gate_xnor
+            else -> R.drawable.ic_gate_and // default
         }
     }
 
@@ -110,13 +110,13 @@ class SimulasiDetailActivity : AppCompatActivity() {
         val result = calculateLogicOutput(gateType, a, b)
 
         if (result) {
-            binding.imgLamp.setImageResource(com.pika.core_ui.R.drawable.ic_lamp_on)
+            binding.imgLamp.setImageResource(R.drawable.ic_lamp_on)
 
             // Tambahkan animasi
-            val anim = AnimationUtils.loadAnimation(this, com.pika.core_ui.R.anim.lamp_pop)
+            val anim = AnimationUtils.loadAnimation(this, R.anim.lamp_pop)
             binding.imgLamp.startAnimation(anim)
         } else {
-            binding.imgLamp.setImageResource(com.pika.core_ui.R.drawable.ic_lamp_off)
+            binding.imgLamp.setImageResource(R.drawable.ic_lamp_off)
             binding.imgLamp.clearAnimation()
         }
         highlightMatchingRow(a, b)
@@ -167,6 +167,130 @@ class SimulasiDetailActivity : AppCompatActivity() {
 
         binding.tvLogicExplanation.text = logicText
     }
+
+    private fun showGateInfoDialog() {
+        val message = when (gateType.uppercase()) {
+            "LOGIKA AND" -> """
+                GERBANG AND (DAN)
+                Prinsip: Output = 1 hanya jika SEMUA input = 1
+                Cara Kerja:
+
+                - Jika A = 0 dan B = 0 → Output = 0 (lampu mati)
+                - Jika A = 0 dan B = 1 → Output = 0 (lampu mati)
+                - Jika A = 1 dan B = 0 → Output = 0 (lampu mati)
+                - Jika A = 1 dan B = 1 → Output = 1 (lampu nyala) ✨
+
+                Analogi Sederhana: Seperti pintu yang butuh 2 kunci. Pintu hanya terbuka jika kedua kunci digunakan bersamaan.
+                
+                Tips Simulasi:
+                - Coba berbagai kombinasi switch
+                - Perhatikan lampu hanya nyala saat kedua switch ON
+            """.trimIndent()
+            "LOGIKA OR" -> """
+                GERBANG OR (ATAU)
+                Prinsip: Output = 1 jika MINIMAL SATU input = 1
+                Cara Kerja:
+
+                - Jika A = 0 dan B = 0 → Output = 0 (lampu mati)
+                - Jika A = 0 dan B = 1 → Output = 1 (lampu nyala) ✨
+                - Jika A = 1 dan B = 0 → Output = 1 (lampu nyala) ✨
+                - Jika A = 1 dan B = 1 → Output = 1 (lampu nyala) ✨
+
+                Analogi Sederhana: Seperti 2 saklar lampu kamar. Lampu nyala jika salah satu atau kedua saklar dinyalakan.
+                
+                Tips Simulasi:
+                - Nyalakan salah satu switch, lihat lampu menyala
+                - Matikan kedua switch, lampu akan mati
+            """.trimIndent()
+            "LOGIKA NOT" -> """
+                GERBANG NOT (TIDAK)
+                Prinsip: Output = kebalikan dari input
+                Cara Kerja:
+
+                - Jika A = 0 → Output = 1 (lampu nyala) ✨
+                - Jika A = 1 → Output = 0 (lampu mati)
+
+                Catatan: Hanya ada 1 switch (switch kedua disembunyikan)
+                Analogi Sederhana: Seperti tombol "kebalikan". Jika Anda tekan, yang terjadi adalah kebalikannya.
+                
+                Tips Simulasi:
+                - Perhatikan hanya ada 1 switch yang aktif
+                - Output selalu berlawanan dengan input
+            """.trimIndent()
+            "LOGIKA NAND" -> """
+                GERBANG NAND (NOT-AND)
+                Prinsip: Kebalikan dari AND. Output = 0 hanya jika SEMUA input = 1
+                Cara Kerja:
+
+                - Jika A = 0 dan B = 0 → Output = 1 (lampu nyala) ✨
+                - Jika A = 0 dan B = 1 → Output = 1 (lampu nyala) ✨
+                - Jika A = 1 dan B = 0 → Output = 1 (lampu nyala) ✨
+                - Jika A = 1 dan B = 1 → Output = 0 (lampu mati)
+
+                Analogi Sederhana: Seperti alarm yang berbunyi kecuali saat kedua kondisi terpenuhi.
+                
+                Tips Simulasi:
+                - Bandingkan dengan gerbang AND
+                - Perhatikan hasilnya berlawanan dengan AND
+            """.trimIndent()
+            "LOGIKA NOR" -> """
+                GERBANG NOR (NOT-OR)
+                Prinsip: Kebalikan dari OR. Output = 1 hanya jika SEMUA input = 0
+                Cara Kerja:
+
+                - Jika A = 0 dan B = 0 → Output = 1 (lampu nyala) ✨
+                - Jika A = 0 dan B = 1 → Output = 0 (lampu mati)
+                - Jika A = 1 dan B = 0 → Output = 0 (lampu mati)
+                - Jika A = 1 dan B = 1 → Output = 0 (lampu mati)
+
+                Analogi Sederhana: Seperti sistem keamanan yang aktif hanya saat tidak ada gangguan sama sekali.
+                
+                Tips Simulasi:
+                - Matikan kedua switch untuk menyalakan lampu
+                - Nyalakan salah satu switch, lampu akan mati
+            """.trimIndent()
+            "LOGIKA XOR" -> """
+                GERBANG XOR (EXCLUSIVE-OR)
+                Prinsip: Output = 1 jika input BERBEDA
+                Cara Kerja:
+
+                - Jika A = 0 dan B = 0 → Output = 0 (lampu mati)
+                - Jika A = 0 dan B = 1 → Output = 1 (lampu nyala) ✨
+                - Jika A = 1 dan B = 0 → Output = 1 (lampu nyala) ✨
+                - Jika A = 1 dan B = 1 → Output = 0 (lampu mati)
+
+                Analogi Sederhana: Seperti timbangan. Hanya seimbang jika kedua sisi berbeda berat.
+                
+                Tips Simulasi:
+                - Atur switch dalam posisi berbeda (satu ON, satu OFF)
+                - Jika sama (keduanya ON atau OFF), lampu mati
+            """.trimIndent()
+            "LOGIKA XNOR" -> """
+                GERBANG XNOR (NOT-XOR)
+                Prinsip: Kebalikan dari XOR. Output = 1 jika input SAMA
+                Cara Kerja:
+
+                - Jika A = 0 dan B = 0 → Output = 1 (lampu nyala) ✨
+                - Jika A = 0 dan B = 1 → Output = 0 (lampu mati)
+                - Jika A = 1 dan B = 0 → Output = 0 (lampu mati)
+                - Jika A = 1 dan B = 1 → Output = 1 (lampu nyala) ✨
+
+                Analogi Sederhana: Seperti sistem verifikasi. Aktif hanya saat kedua input cocok/sama.
+                
+                Tips Simulasi:
+                - Atur kedua switch dalam posisi sama
+                - Lampu nyala saat keduanya ON atau keduanya OFF
+            """.trimIndent()
+            else -> "Tidak ada informasi yang tersedia."
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle("Penjelasan ${gateType.uppercase()}")
+            .setMessage(message)
+            .setPositiveButton("Tutup", null)
+            .show()
+    }
+
 
 
     private fun setupTruthTable(gate: String) {
@@ -248,8 +372,8 @@ class SimulasiDetailActivity : AppCompatActivity() {
             val rowTriple = Triple(tag.first as Boolean, tag.second as Boolean, tag.third as Boolean)
 
             if (rowTriple == target) {
-                val anim = AnimationUtils.loadAnimation(this, com.pika.core_ui.R.anim.row_highlight)
-                row.setBackgroundColor(ContextCompat.getColor(this, com.pika.core_ui.R.color.yellow_200))
+                val anim = AnimationUtils.loadAnimation(this, R.anim.row_highlight)
+                row.setBackgroundColor(ContextCompat.getColor(this, R.color.yellow_200))
                 row.startAnimation(anim)
 
                 // Tooltip jika output = true

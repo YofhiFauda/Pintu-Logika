@@ -2,14 +2,17 @@ package com.pika.pintulogika.ui.auth.guru
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.pika.pintulogika.databinding.ActivityLoginGuruBinding
 import com.digitallogic.core_data.session.SessionManager
 import com.pika.pintulogika.ui.preauth.role.RoleActivity
 import androidx.lifecycle.lifecycleScope
+import com.pika.core_ui.R
 import com.pika.pintulogika.MainActivity
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -40,6 +43,7 @@ class LoginGuruActivity : AppCompatActivity() {
                 binding = ActivityLoginGuruBinding.inflate(layoutInflater)
                 setContentView(binding.root)
                 setupLogin()
+                setupPasswordVisibilityToggle()
                 setupAction()
             }
         }
@@ -77,6 +81,31 @@ class LoginGuruActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun setupPasswordVisibilityToggle() {
+        var isPasswordVisible = false
+
+        val passwordField = binding.etPasswordAdmin
+        val passwordLayout = binding.edPasswordAdmin
+
+        passwordLayout.setEndIconOnClickListener {
+            isPasswordVisible = !isPasswordVisible
+
+            if (isPasswordVisible) {
+                passwordField.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                passwordLayout.endIconDrawable =
+                    ContextCompat.getDrawable(this, R.drawable.ic_eye_open)
+            } else {
+                passwordField.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                passwordLayout.endIconDrawable =
+                    ContextCompat.getDrawable(this, R.drawable.ic_eye_close)
+            }
+
+            // Agar kursor tetap di akhir
+            passwordField.setSelection(passwordField.text?.length ?: 0)
+        }
+    }
+
 
     private fun startMainActivity() {
         startActivity(Intent(this, MainActivity::class.java))

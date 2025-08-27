@@ -169,7 +169,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:maxLength="20"
+                        android:maxLength="25"
                         android:textColor="@color/black"
                         android:gravity="center"
                         android:maxLines="1"

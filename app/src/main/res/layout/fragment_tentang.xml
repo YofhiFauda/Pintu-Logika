@@ -91,6 +91,39 @@
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_panduan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Panduan"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_result_box"
+                            android:textSize="12sp"
+                            android:paddingBottom="5dp"
+                            android:layout_marginHorizontal="10dp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/poppins_medium"/>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_bantuan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Bantuan"
+                            android:background="@drawable/bg_result_box"
+                            android:textSize="12sp"
+                            android:layout_weight="1"
+                            android:layout_marginHorizontal="10dp"
+                            android:paddingBottom="5dp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/poppins_medium"/>
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -139,9 +172,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:justificationMode="inter_word"
                         android:lineSpacingExtra="4dp"
                         android:padding="16dp"
-                        android:justificationMode="inter_word"
                         android:text="Aplikasi ini bertujuan untuk membantu siswa memahami logika digital melalui simulasi interaktif. Dengan antarmuka yang intuitif, pengguna dapat mempelajari berbagai gerbang logika dan memahami konsep dasar elektronika digital."
                         android:textColor="@color/text_secondary"
                         android:textSize="18sp" />
@@ -201,20 +234,11 @@
 
             </androidx.cardview.widget.CardView>
 
-            <!-- Student Identity Card -->
-            <include layout="@layout/card_student_identity" />
-
-            <!-- Supervisor Card -->
-            <include layout="@layout/card_supervisor" />
-
             <!-- Features Card -->
             <include layout="@layout/card_features" />
 
             <!-- Technology Card -->
             <include layout="@layout/card_technology" />
-
-            <!-- Additional Info Card -->
-            <include layout="@layout/card_additional_info" />
 
             <!-- Footer Card -->
             <androidx.cardview.widget.CardView
@@ -229,7 +253,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="24dp"
-                    android:text="© 2025 LogicSim Pro. Dikembangkan untuk keperluan akademik."
+                    android:text="© 2025 Pintu Logika\nDikembangkan untuk keperluan akademik."
                     android:textColor="@color/text_secondary"
                     android:textSize="16sp"
                     android:textStyle="bold" />

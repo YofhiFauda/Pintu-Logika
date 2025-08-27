@@ -75,7 +75,7 @@
         android:visibility="gone"/>
 
     <!-- Retry Button -->
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnUlangi"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
         android:orientation="horizontal">
 
         <!-- Back Button -->
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnKembali"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -107,7 +107,7 @@
             android:paddingBottom="10dp"/>
 
         <!-- Next Button -->
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSelanjutnya"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -109,14 +109,6 @@ class MateriFragment : Fragment() {
 
                         true
                     }
-                    R.id.menu_kuisMateri -> {
-                        Toast.makeText(requireContext(), "Menu Kelola Kuis Materi Berhasil", Toast.LENGTH_SHORT).show()
-                        true
-                    }
-                    R.id.menu_tampilanMateri -> {
-                        Toast.makeText(requireContext(), "Menu Tampilkan Materi Berhasil", Toast.LENGTH_SHORT).show()
-                        true
-                    }
                     R.id.menu_keluar -> {
                         viewLifecycleOwner.lifecycleScope.launch {
                             sessionManager.logout()

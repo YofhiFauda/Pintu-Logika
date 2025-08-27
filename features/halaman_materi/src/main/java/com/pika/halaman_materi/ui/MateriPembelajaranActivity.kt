@@ -2,9 +2,13 @@ package com.pika.halaman_materi.ui
 
 import android.graphics.Paint
 import android.graphics.Typeface
+import android.graphics.text.LineBreaker
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.text.Layout
 import android.util.Log
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
@@ -238,61 +242,136 @@ class MateriPembelajaranActivity : AppCompatActivity() {
     }
 
     private fun addTextContent(item: ContentItem) {
+        val lines = item.content.trim().split("\n")
+        val isBulletList = lines.all { it.trim().startsWith("- ") || it.trim().startsWith("• ") }
+        val isNumberedList = lines.all { it.trim().matches(Regex("""\d+\.\s+.*""")) }
+
+        if (isBulletList || isNumberedList) {
+            lines.forEachIndexed { index, line ->
+                val cleanLine = line.trim()
+
+                val formattedText = when {
+                    cleanLine.startsWith("- ") -> "• ${cleanLine.removePrefix("- ").trim()}"
+                    cleanLine.startsWith("• ") -> "• ${cleanLine.removePrefix("• ").trim()}"
+                    isNumberedList -> {
+                        val content = cleanLine.replace(Regex("""^\d+\.\s*"""), "")
+                        "${index + 1}. $content"
+                    }
+                    else -> cleanLine
+                }
+
+                val bulletTextView = TextView(this).apply {
+                    text = formattedText
+                    textSize = 16f
+                    setTextColor(resources.getColor(com.pika.core_ui.R.color.black, null))
+                    setPadding(24, 4, 24, 4)
+                }
+
+                binding.contentContainer.addView(bulletTextView)
+            }
+            return
+        }
+
+        // Default (non-list) text rendering
         val textView = TextView(this).apply {
             text = item.content
 
-            // Apply alignment
             gravity = when (item.alignment) {
                 "center" -> Gravity.CENTER
                 "right" -> Gravity.END
                 else -> Gravity.START
             }
 
-            // Apply text style
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
+            }
+
+            val desiredLineHeightSp = 28f
+            val lineHeightPx = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP,
+                desiredLineHeightSp,
+                resources.displayMetrics
+            )
+            setLineSpacing(lineHeightPx - textSize, 1f)
+
             when (item.style) {
                 "Heading 1" -> {
                     textSize = 24f
                     setTypeface(typeface, Typeface.BOLD)
-                    setTextColor(resources.getColor(com.pika.core_ui.R.color.black, null))
                 }
                 "Heading 2" -> {
                     textSize = 20f
                     setTypeface(typeface, Typeface.BOLD)
-                    setTextColor(resources.getColor(com.pika.core_ui.R.color.black, null))
                 }
                 "Heading 3" -> {
                     textSize = 18f
                     setTypeface(typeface, Typeface.BOLD)
-                    setTextColor(resources.getColor(com.pika.core_ui.R.color.black, null))
                 }
                 "Bold" -> {
                     textSize = 16f
                     setTypeface(typeface, Typeface.BOLD)
-                    setTextColor(resources.getColor(com.pika.core_ui.R.color.black, null))
                 }
                 "Italic" -> {
                     textSize = 16f
                     setTypeface(typeface, Typeface.ITALIC)
-                    setTextColor(resources.getColor(com.pika.core_ui.R.color.black, null))
+                }
+                "Bullet" -> {
+                    val lines = item.content.trim().split("\n")
+                    lines.forEach { line ->
+                        val textView = TextView(this@MateriPembelajaranActivity).apply {
+                            text = "• ${line.trim().removePrefix("• ").removePrefix("- ")}"
+                            textSize = 16f
+                            setTextColor(resources.getColor(com.pika.core_ui.R.color.black, null))
+                            setPadding(24, 4, 24, 4)
+                        }
+                        binding.contentContainer.addView(textView)
+                    }
+                    return
+                }
+                "Dash" -> {
+                    val lines = item.content.trim().split("\n")
+                    lines.forEach { line ->
+                        val textView = TextView(this@MateriPembelajaranActivity).apply {
+                            text = "- ${line.trim().removePrefix("- ").removePrefix("• ")}"
+                            textSize = 16f
+                            setTextColor(resources.getColor(com.pika.core_ui.R.color.black, null))
+                            setPadding(24, 4, 24, 4)
+                        }
+                        binding.contentContainer.addView(textView)
+                    }
+                    return
+                }
+                "Numbered" -> {
+                    val lines = item.content.trim().split("\n")
+                    lines.forEachIndexed { index, line ->
+                        val textView = TextView(this@MateriPembelajaranActivity).apply {
+                            text = "${index + 1}. ${line.trim().replace(Regex("""^\d+\.\s*"""), "")}"
+                            textSize = 16f
+                            setTextColor(resources.getColor(com.pika.core_ui.R.color.black, null))
+                            setPadding(24, 4, 24, 4)
+                        }
+                        binding.contentContainer.addView(textView)
+                    }
+                    return
                 }
                 else -> {
                     textSize = 16f
-                    setTextColor(resources.getColor(com.pika.core_ui.R.color.black, null))
                 }
             }
 
-            val layoutParams = LinearLayout.LayoutParams(
+            setTextColor(resources.getColor(com.pika.core_ui.R.color.black, null))
+            layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ).apply {
                 setMargins(0, 16, 0, 16)
             }
-            this.layoutParams = layoutParams
-            setPadding(24, 12, 24, 12)
+            setPadding(12, 12, 12, 12)
         }
 
         binding.contentContainer.addView(textView)
     }
+
 
     private fun addImageContent(item: ContentItem) {
         val container = LinearLayout(this).apply {
@@ -315,11 +394,10 @@ class MateriPembelajaranActivity : AppCompatActivity() {
         val imageView = ImageView(this).apply {
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                dpToPx(200) // Fixed height
+                LinearLayout.LayoutParams.WRAP_CONTENT,
             ).apply {
                 setMargins(24, 0, 24, 0)
             }
-            scaleType = ImageView.ScaleType.CENTER_CROP
 
             // Load image from ImageKit URL
             val imageUrl = if (item.imageUrl.isNotEmpty()) item.imageUrl else item.content

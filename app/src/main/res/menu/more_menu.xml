@@ -3,12 +3,7 @@
     <item
         android:id="@+id/menu_kelolaMateri"
         android:title="Kelola Materi" />
-    <item
-        android:id="@+id/menu_kuisMateri"
-        android:title="Kelola Kuis Materi" />
-    <item
-        android:id="@+id/menu_tampilanMateri"
-        android:title="Tampilkan Materi" />
+
     <item
         android:id="@+id/menu_keluar"
         android:title="Keluar" />

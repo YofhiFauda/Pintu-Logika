@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -79,6 +80,25 @@ class TambahMateriFragment : Fragment() {
         setupInitialData()
         setupDynamicContentButtons()
         setupSpinners()
+
+        val rootView = requireActivity().findViewById<View>(android.R.id.content)
+
+        rootView.viewTreeObserver.addOnGlobalLayoutListener {
+            val rect = android.graphics.Rect()
+            rootView.getWindowVisibleDisplayFrame(rect)
+
+            val screenHeight = rootView.rootView.height
+            val keypadHeight = screenHeight - rect.bottom
+
+            if (keypadHeight > screenHeight * 0.10) {
+                // Keyboard is visible
+                binding.scrollContainer.setPadding(0, 0, 0, keypadHeight)
+            } else {
+                // Keyboard is hidden
+                binding.scrollContainer.setPadding(0, 0, 0, 0)
+            }
+        }
+
     }
 
     private fun setupInitialData() {
@@ -107,6 +127,11 @@ class TambahMateriFragment : Fragment() {
         binding.btnSimpan.setOnClickListener {
             simpanMateri()
         }
+
+        binding.scrollContainer.post {
+            binding.scrollContainer.fullScroll(View.FOCUS_DOWN)
+        }
+
     }
 
     private fun setupDynamicContentButtons() {

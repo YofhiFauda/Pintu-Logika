@@ -1,6 +1,7 @@
 package com.digitallogic.halaman_kuis.aljabar_boolean
 
 
+import android.app.AlertDialog
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.Gravity
@@ -46,13 +47,17 @@ class KuisAljabarBooleanActivity : AppCompatActivity() {
             finish()
         }
 
+        binding.btnInfoKuisAljabarBoolean.setOnClickListener {
+            showInfoDialog()
+        }
+
     }
 
     private fun setupStage(stage: Int) {
         val stageData = GameStageManager.getStage(stage)
         binding.tvScore.text = "Score: $score"
         binding.tvLogic.text = renderDeskripsiDenganWarna(stageData.description)
-        binding.textHasil.text = "Pilih Jawaban Sesuai Kotak"
+        binding.textHasil.text = stageData.explanation
         binding.gridLayout.removeAllViews()
         gridItems.clear()
 
@@ -206,6 +211,153 @@ class KuisAljabarBooleanActivity : AppCompatActivity() {
         }
 
         return builder
+    }
+
+    private fun showInfoDialog(){
+        val message = """
+            Apa itu Game Aljabar Boolean?
+            Game ini adalah permainan logika dimana pemain harus memilih kotak-kotak berwarna berdasarkan aturan logika Boolean. Mirip seperti puzzle matematika, tapi menggunakan warna dan angka sebagai elemen permainan.
+            
+            Komponen Utama Game
+            
+            1. Grid Permainan (9 Kotak)
+              - Terdiri dari 9 kotak yang disusun dalam bentuk 3x3
+              - Setiap kotak memiliki:
+                - Angka: 1, 2, atau 3
+                - Warna: Merah 🔴, Hijau 🟢, atau Oranye 🟠
+              - Pemain bisa mengklik kotak untuk memilih/tidak memilih
+            
+            2. Sistem Skor
+              - Skor awal: 0
+              - Setiap jawaban benar: +5 poin
+              - Jika salah: skor kembali ke 0 dan mulai dari stage 1
+            
+            3. Tahapan Permainan (Stages)
+              - Game memiliki beberapa level/stage
+              - Setiap stage memiliki aturan logika berbeda
+              - Semakin tinggi stage, semakin sulit
+            
+            Cara Bermain
+            
+            Langkah 1: Pahami Aturan
+            Di bagian atas layar, akan muncul instruksi logika, contoh:
+            "Pilih semua kotak merah ATAU kotak dengan angka 1"
+            
+            Langkah 2: Analisis Grid
+            Lihat 9 kotak yang tersedia dan identifikasi:
+              - Warna setiap kotak
+              - Angka setiap kotak
+              - Kotak mana yang sesuai dengan aturan
+            
+            Langkah 3: Pilih Kotak
+              - Klik kotak yang sesuai dengan aturan logika
+              - Kotak yang dipilih akan berubah tampilan (highlight)
+              - Bisa memilih lebih dari satu kotak
+            
+            Langkah 4: Sistem Penilaian Otomatis
+            Game akan otomatis mengecek jawaban setiap kali Anda mengklik kotak:
+              - Benar: Lanjut ke stage berikutnya dengan bonus +5 poin
+              - Salah: Kembali ke stage 1 dengan skor 0
+            
+            Fitur Game
+            
+            1. Tampilan Visual
+              - Warna-warni: Setiap warna (merah, hijau, oranye) punya tampilan khusus
+              - Feedback Visual: Kotak berubah warna saat dipilih
+              - Ikon Warna: Instruksi menggunakan ikon dot berwarna untuk memperjelas
+            
+            2. Interaksi Responsif
+              - Klik untuk memilih/batal memilih kotak
+              - Animasi dan perubahan warna saat interaksi
+              - Toast message untuk feedback
+            
+            3. Navigasi
+              - Tombol "Back" untuk keluar dari game
+              - Pergantian stage otomatis setelah jawaban benar
+            
+            
+            Logika Boolean dalam Game
+            
+            Konsep Dasar:
+              1. AND: Kedua kondisi harus benar
+                - Contoh: "Pilih kotak merah AND angka 1" → hanya kotak yang merah DAN berangka 1
+                
+              2. OR: Salah satu kondisi benar sudah cukup
+                - Contoh: "Pilih kotak merah OR angka 1" → kotak merah atau berangka 1 (atau keduanya)
+            
+              3. NOT: Kebalikan dari kondisi
+                - Contoh: "Pilih NOT merah" → pilih semua kecuali yang merah
+            
+            
+            Contoh Aturan Game:
+              - "Pilih semua kotak hijau"
+              - "Pilih kotak dengan angka 2 atau 3"
+              - "Pilih kotak yang BUKAN oranye"
+              - "Pilih kotak merah DAN angka 1"
+            
+            Strategi Menang
+            1. Baca Instruksi dengan Teliti
+            Pahami setiap kata dalam instruksi logika, terutama kata kunci:
+            
+            "ATAU" / "OR"
+            "DAN" / "AND"
+            "TIDAK" / "NOT"
+            "SEMUA"
+            
+            2. Analisis Sistematis
+            
+            Buat daftar mental kotak yang memenuhi syarat
+            Periksa satu per satu sebelum mengklik
+            Jangan terburu-buru
+            
+            3. Pahami Konsekuensi
+            
+            Satu kesalahan = mulai dari awal
+            Lebih baik lambat tapi benar
+            Perhatikan perubahan aturan setiap stage
+            
+            
+            Tips untuk Pemula
+            
+            Mulai dengan Stage Mudah: Pahami pola dasar dulu
+            Visualisasikan: Gambar mental kotak mana yang harus dipilih
+            Double Check: Periksa kembali sebelum mengklik kotak terakhir
+            Sabar: Jangan panik jika harus mengulang dari awal
+            Pelajari Pola: Setiap stage punya pola logika tertentu
+            
+            
+            Manfaat Bermain Game Ini
+            
+            Untuk Pembelajaran:
+            Logika Berpikir: Meningkatkan kemampuan analisis
+            Pemecahan Masalah: Belajar pendekatan sistematis
+            Matematika Boolean: Pemahaman konsep AND, OR, NOT
+            Konsentrasi: Melatih fokus dan ketelitian
+            
+            
+            Troubleshooting
+            Jika Game Tidak Merespons:
+            Pastikan mengklik tepat di tengah kotak
+            Tunggu sejenak antara klik
+            
+            Jika Bingung dengan Aturan:
+            Baca instruksi pelan-pelan
+            Coba identifikasi kata kunci logika
+            Mulai dengan kotak yang paling jelas memenuhi syarat
+            
+            Jika Sering Salah:
+            Jangan terburu-buru
+            Periksa setiap kotak sebelum diklik
+            Pahami perbedaan AND dan OR
+        """.trimIndent()
+
+        AlertDialog.Builder(this)
+            .setTitle("Panduan Gamifikasi Aljabar Boolean")
+            .setMessage(message)
+            .setPositiveButton("Tutup") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
     private fun dpToPx(dp: Int): Int {

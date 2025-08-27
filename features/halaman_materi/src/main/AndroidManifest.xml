@@ -4,6 +4,7 @@
     <application>
         <activity
             android:name=".ui.MateriPembelajaranActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
     </application>
 

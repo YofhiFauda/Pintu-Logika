@@ -3,7 +3,16 @@
 
     <application>
         <activity
-            android:name=".ui.SimulasiDetailActivity"
+            android:name=".ui.aljabar_boolean.DetailSimulasiAljabarBooleanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.aljabar_boolean.SimulasiAljabarBooleanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.gerbang_logika.SimulasiGerbangLogikaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.gerbang_logika.SimulasiDetailActivity"
             android:exported="false" />
     </application>
 

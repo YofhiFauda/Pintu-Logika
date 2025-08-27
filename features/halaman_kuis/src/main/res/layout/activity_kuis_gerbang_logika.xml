@@ -49,7 +49,7 @@
                     android:fontFamily="@font/poppins_medium" />
 
                 <ImageButton
-                    android:id="@+id/btnSound"
+                    android:id="@+id/btnInfoKuisGerbangLogika"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:contentDescription="Sound Button Simulasi"
@@ -58,8 +58,24 @@
                     android:layout_gravity="end"
                     android:paddingBottom="10dp"
                     android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_info_24"
+                    android:tint="@color/white"
+                    android:background="@drawable/bg_button_3d_small_with_black_stroke"
+                    tools:ignore="UseAppTint" />
+
+                <ImageButton
+                    android:id="@+id/btnSound"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:contentDescription="Sound Button Simulasi"
+                    android:maxHeight="60dp"
+                    android:maxWidth="60dp"
+                    android:layout_gravity="end"
+                    android:paddingBottom="10dp"
+                    android:layout_marginEnd="5dp"
                     android:src="@drawable/ic_sound_on_24"
                     android:background="@drawable/bg_button_3d_small_with_black_stroke" />
+
 
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>

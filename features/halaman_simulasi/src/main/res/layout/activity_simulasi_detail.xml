@@ -9,7 +9,7 @@
     android:background="@color/white"
     android:fitsSystemWindows="true"
     android:theme="@style/Theme.PintuLogika"
-    tools:context=".ui.SimulasiDetailActivity">
+    tools:context=".ui.gerbang_logika.SimulasiDetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -48,6 +48,20 @@
                 android:paddingHorizontal="16dp"
                 android:textColor="@color/black"
                 android:fontFamily="@font/poppins_medium" />
+
+
+            <ImageView
+                android:id="@+id/btnInfoSimulasi"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_info_24"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Info"
+                android:layout_marginEnd="24dp"
+                android:layout_gravity="end"
+                android:tint="@color/black"
+                android:padding="8dp"
+                tools:ignore="UseAppTint" />
 
 
         </androidx.appcompat.widget.Toolbar>

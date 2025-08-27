@@ -1,5 +1,6 @@
 package com.digitallogic.halaman_kuis.gerbang_logika
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -46,6 +47,11 @@ class KuisGerbangLogikaActivity : AppCompatActivity() {
             SoundPlayer.playSound(this, com.pika.core_ui.R.raw.water_bubble)
         }
 
+        binding.btnInfoKuisGerbangLogika.setOnClickListener {
+            SoundPlayer.playSound(this, com.pika.core_ui.R.raw.water_bubble)
+            showInfoDialog()
+        }
+
     }
 
     override fun onResume() {
@@ -63,7 +69,7 @@ class KuisGerbangLogikaActivity : AppCompatActivity() {
     }
 
     private fun setupLevels() {
-        val levels = (1..18).map { levelNumber ->
+        val levels = (1..15).map { levelNumber ->
             LevelLogicGates(
                 number = levelNumber,
                 isUnlocked = levelNumber <= getCurrentUnlockedLevel(),
@@ -111,4 +117,41 @@ class KuisGerbangLogikaActivity : AppCompatActivity() {
         )
     }
 
+    private fun showInfoDialog(){
+        val message = """
+            🎮 CARA BERMAIN LOGIC GATE GAME
+            
+            🎯 Tujuan Utama:
+            Atur input untuk menghasilkan output TRUE (1)
+            
+            🕹️ Kontrol:
+            • Tap tombol input untuk toggle 0/1
+            • Lihat alur data dari input ke output
+            • Perhatikan jenis gerbang dan fungsinya
+            
+            📚 Jenis Gerbang:
+            • AND: Output 1 jika SEMUA input 1
+            • OR: Output 1 jika ADA SATU input 1  
+            • NOT: Membalik nilai input
+            • NAND: Kebalikan dari AND
+            • NOR: Kebalikan dari OR
+            • XOR: Output 1 jika input BERBEDA
+            
+            💡 Tips Umum:
+            1. Mulai dari input, ikuti alur ke output
+            2. Pahami fungsi setiap gerbang
+            3. Gunakan trial and error untuk belajar
+            4. Level makin tinggi makin kompleks!
+            
+            🏆 Selamat bermain dan berlatih logika digital!
+        """.trimIndent()
+
+        AlertDialog.Builder(this)
+            .setTitle("Panduan Gamifikasi Gerbang Logika")
+            .setMessage(message)
+            .setPositiveButton("Tutup") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
 }

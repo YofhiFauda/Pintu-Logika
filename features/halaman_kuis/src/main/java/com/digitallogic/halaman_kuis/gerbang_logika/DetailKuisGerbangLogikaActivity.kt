@@ -2,6 +2,7 @@ package com.digitallogic.halaman_kuis.gerbang_logika
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
@@ -26,6 +27,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.digitallogic.halaman_kuis.SoundPlayer
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.setMargins
 import com.digitallogic.halaman_kuis.GateConfig
@@ -76,6 +78,11 @@ class DetailKuisGerbangLogikaActivity : AppCompatActivity() {
             SoundPlayer.playSound(this, CoreUiR.raw.water_bubble)
             resetMoveCounter()
             finish()
+        }
+
+        findViewById<ImageView>(R.id.btnInfoDetailKuisGerbangLogika).setOnClickListener {
+            SoundPlayer.playSound(this, CoreUiR.raw.water_bubble)
+            showInfoDialog()
         }
     }
 
@@ -552,6 +559,256 @@ class DetailKuisGerbangLogikaActivity : AppCompatActivity() {
             }
         }
         return views
+    }
+
+    private fun showInfoDialog(){
+        val message = when (currentLevel) {
+            1 -> """
+                🎯 LEVEL 1 - Pengenalan AND Gate
+                
+                📝 Tujuan: Pahami cara kerja gerbang AND
+                
+                🔧 Komponen:
+                • 4 Input (INPUT1, INPUT2, INPUT3, INPUT4)
+                • 3 Gerbang AND (AND1, AND2, AND3)
+                
+                📖 Cara Bermain:
+                1. Atur nilai input (0 atau 1) dengan menekan tombol input
+                2. Gerbang AND menghasilkan output 1 hanya jika SEMUA input bernilai 1
+                3. AND1 menggabungkan INPUT1 dan INPUT2
+                4. AND2 menggabungkan INPUT3 dan INPUT4
+                5. AND3 menggabungkan hasil AND1 dan AND2
+                
+                💡 Tips: Untuk mendapat output TRUE, semua 4 input harus bernilai 1!                
+            """.trimIndent()
+            2 -> """
+                🎯 LEVEL 2 - Kombinasi OR dan AND
+                
+                📝 Tujuan: Pelajari kombinasi gerbang OR dan AND
+                
+                🔧 Komponen:
+                • 4 Input (INPUT1, INPUT2, INPUT3, INPUT4)
+                • 2 Gerbang OR (OR1, OR2)
+                • 1 Gerbang AND (AND1)
+                
+                📖 Cara Bermain:
+                1. OR1 menggabungkan INPUT1 dan INPUT2
+                2. OR2 menggabungkan INPUT3 dan INPUT4
+                3. AND1 menggabungkan hasil OR1 dan OR2
+                4. Gerbang OR menghasilkan 1 jika SALAH SATU input bernilai 1
+                
+                💡 Tips: Pastikan minimal ada 1 input aktif di setiap pasangan OR!                
+            """.trimIndent()
+            3 -> """
+                🎯 LEVEL 3 - AND ke OR
+                
+                📝 Tujuan: Pahami pola AND-OR
+                
+                🔧 Komponen:
+                • 4 Input (INPUT1, INPUT2, INPUT3, INPUT4)
+                • 2 Gerbang AND (AND1, AND2)
+                • 1 Gerbang OR (OR1)
+                
+                📖 Cara Bermain:
+                1. AND1 dan AND2 memproses pasangan input
+                2. OR1 menggabungkan hasil kedua AND
+                3. Output TRUE jika salah satu AND menghasilkan TRUE
+                
+                💡 Tips: Aktifkan kedua input di salah satu pasangan AND!                
+            """.trimIndent()
+            4 -> """
+                🎯 LEVEL 4 - Pengenalan NOT Gate
+                
+                📝 Tujuan: Pelajari gerbang NOT (inverter)
+                
+                🔧 Komponen:
+                • 4 Input + kombinasi AND, OR, NOT
+                
+                📖 Cara Bermain:
+                1. NOT gate membalik nilai (0→1, 1→0)
+                2. Rangkaian: AND1, OR1 → OR2 → NOT1
+                3. Output akhir adalah kebalikan dari OR2
+                
+                💡 Tips: Pikirkan kapan OR2 menghasilkan FALSE untuk mendapat output TRUE!                
+            """.trimIndent()
+            5 ->"""
+                🎯 LEVEL 5 - Rangkaian Kompleks
+                
+                📝 Tujuan: Kuasai kombinasi berbagai gerbang
+                
+                🔧 Komponen:
+                • 6 Gerbang: OR1, NOT1, AND1, NOT2, NOT3, AND2
+                
+                📖 Cara Bermain:
+                1. Jalur 1: INPUT1,2 → OR1 → NOT2
+                2. Jalur 2: INPUT3 → NOT1 → AND1 ← INPUT4 → NOT3
+                3. AND2 menggabungkan hasil NOT2 dan NOT3
+                
+                💡 Tips: Perhatikan jalur NOT yang berlipat ganda!                
+            """.trimIndent()
+            6 ->"""
+                🎯 LEVEL 6 - NAND Gate
+                
+                📝 Tujuan: Pelajari gerbang NAND
+                
+                🔧 Komponen:
+                • NAND, OR, NOT gates
+                
+                📖 Cara Bermain:
+                1. NAND = NOT + AND (kebalikan dari AND)
+                2. NAND menghasilkan 0 hanya jika semua input 1
+                3. Kombinasi dengan OR dan NOT gate
+                
+                💡 Tips: NAND adalah gerbang universal - sangat powerful!              
+            """.trimIndent()
+            7 ->"""
+                🎯 LEVEL 7 - Rangkaian 6 Input
+                
+                📝 Tujuan: Kelola rangkaian dengan banyak input
+                
+                🔧 Komponen:
+                • 6 Input dengan kombinasi AND, NOR, NOT
+                
+                📖 Cara Bermain:
+                1. Tiga jalur paralel diproses berbeda
+                2. NOR gate = NOT + OR
+                3. Hasil digabungkan dengan AND gates bertingkat
+                
+                💡 Tips: Analisis setiap jalur secara terpisah dulu!              
+            """.trimIndent()
+            8 ->"""
+                🎯 LEVEL 8 - Rangkaian Bertingkat
+                
+                📝 Tujuan: Kuasai alur data bertingkat
+                
+                🔧 Komponen:
+                • NOR, AND, NOT, OR gates dalam susunan kompleks
+                
+                📖 Cara Bermain:
+                1. Multiple stage processing
+                2. Perhatikan alur NOT gates yang berlapis
+                3. Hasil akhir melalui OR3
+                
+                💡 Tips: Ikuti alur data step by step dari input ke output!              
+            """.trimIndent()
+            9 ->"""
+                🎯 LEVEL 9 - NOR Gate Finale
+                
+                📝 Tujuan: Selesaikan dengan NOR gate
+                
+                🔧 Komponen:
+                • Kombinasi semua jenis gate berakhir di NOR
+                
+                📖 Cara Bermain:
+                1. NOR menghasilkan 1 hanya jika semua input 0
+                2. Proses dua jalur AND yang kompleks
+                3. NOR1 sebagai gerbang final
+                
+                💡 Tips: Untuk output TRUE, buat kedua input NOR1 menjadi FALSE!              
+            """.trimIndent()
+            10 ->"""
+                🎯 LEVEL 10 - Paralelisme
+                
+                📝 Tujuan: Kelola multiple parallel paths
+                
+                🔧 Komponen:
+                • 3 jalur input parallel dengan sharing connections
+                
+                📖 Cara Bermain:
+                1. AND2 digunakan di dua jalur berbeda
+                2. AND4 menggabungkan hasil AND3 dan OR2
+                3. Optimalisasi resource dengan sharing
+                
+                💡 Tips: Perhatikan gate yang digunakan multiple paths!              
+            """.trimIndent()
+            11 ->"""
+                🎯 LEVEL 11 - Mixed Operations
+                
+                📝 Tujuan: Campuran operasi kompleks
+                
+                🔧 Komponen:
+                • NOR, OR, AND, NOT dalam kombinasi advanced
+                
+                📖 Cara Bermain:
+                1. NOR dan OR bekerja parallel
+                2. NOT gate di tengah processing
+                3. Multiple AND gates untuk convergence
+                
+                💡 Tips: Balance antara true dan false paths!              
+            """.trimIndent()
+            12 ->"""
+                🎯 LEVEL 12 - Advanced Architecture
+                
+                📝 Tujuan: Arsitektur rangkaian advanced
+                
+                🔧 Komponen:
+                • NOR, NOT, multiple AND dan OR gates
+                
+                📖 Cara Bermain:
+                1. Three-tier architecture
+                2. Shared connections antara gates
+                3. NOR1 dan NOT1 sebagai controller
+                
+                💡 Tips: Lihat pola three-tier: Input → Process → Combine!              
+            """.trimIndent()
+            13 ->"""
+                🎯 LEVEL 13 - Expert Level
+                
+                📝 Tujuan: Tantangan untuk expert
+                
+                🔧 Komponen:
+                • Multi-path dengan NOT gates strategis
+                
+                📖 Cara Bermain:
+                1. NOT gates di posisi strategis
+                2. Multiple OR dan AND stages  
+                3. Final combination dengan AND3
+                
+                💡 Tips: Expert level - analisis setiap path dengan teliti!              
+            """.trimIndent()
+            14 ->"""
+                🎯 LEVEL 14 - Master Challenge
+                
+                📝 Tujuan: Challenge untuk master level
+                
+                🔧 Komponen:
+                • 5-tier architecture dengan 11 gates total
+                
+                📖 Cara Bermain:
+                1. Arsitektur berlapis sangat kompleks
+                2. Multiple convergence points
+                3. NOT3 sebagai final inverter
+                
+                💡 Tips: Master level - gunakan strategi divide and conquer!              
+            """.trimIndent()
+            15 ->"""
+                🎯 LEVEL 15 - XOR Challenge
+                
+                📝 Tujuan: Final boss dengan XOR gate!
+                
+                🔧 Komponen:
+                • XOR gate sebagai final gate
+                
+                📖 Cara Bermain:
+                1. XOR menghasilkan 1 jika input berbeda
+                2. OR2 dan OR3 harus menghasilkan nilai berbeda
+                3. Final boss level - gunakan semua pengetahuan!
+                
+                💡 Tips: XOR = eXclusive OR. TRUE jika input BERBEDA!
+                
+                🎉 Selamat! Ini adalah level terakhir!              
+            """.trimIndent()
+
+            else -> "Tidak ada informasi yang tersedia."
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle("Panduan Gamifikasi Gerbang Logika")
+            .setMessage(message)
+            .setPositiveButton("Tutup") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 }
 

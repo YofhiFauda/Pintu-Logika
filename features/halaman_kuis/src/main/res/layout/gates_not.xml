@@ -2,14 +2,14 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="50dp"
-    android:layout_height="55dp">
+    android:layout_width="60dp"
+    android:layout_height="65dp">
 
     <!-- Output Dot di Atas Tengah -->
     <View
         android:id="@+id/dot_output"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
         android:tag="output_0"
         android:layout_gravity="top|center"
         android:background="@drawable/red_dot_indicator_stroke"
@@ -18,8 +18,8 @@
     <!-- Input Dot Kiri Bawah -->
     <View
         android:id="@+id/dot_input_0"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
         android:tag="input_0"
         android:background="@drawable/red_dot_indicator_stroke"
         android:layout_gravity="bottom|center"
@@ -27,13 +27,13 @@
 
 
     <!-- Gate Text -->
-    <TextView
+    <ImageView
         android:id="@+id/and"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@drawable/bg_custom_switch"
-        android:gravity="center"
+        android:src="@drawable/ic_gate_not_40"
         android:text="NOT"
+        android:layout_gravity="center"
         android:textColor="@color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
